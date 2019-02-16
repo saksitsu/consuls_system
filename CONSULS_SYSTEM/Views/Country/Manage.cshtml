@@ -1,0 +1,138 @@
+﻿@model IEnumerable<CONSULS_SYSTEM.Models.MT_Country>
+
+@using CONSULS_SYSTEM.Resources
+@using Microsoft.AspNetCore.Http;
+
+@{
+    ViewData["Title"] = "Manage";
+    Layout = "_Layout_admin";
+}
+
+@inject LocService SharedLocalizer
+
+<section class="content-header">
+    <h1>
+        @SharedLocalizer.GetLocalizedHtmlString("Country_ID")
+        <small> @SharedLocalizer.GetLocalizedHtmlString("management")</small>
+    </h1>
+</section>
+<section class="content">
+    <!-- Default box -->
+    <div class="col-lg-12">
+        <div class="col-lg-6">
+
+        </div>
+    </div>
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title">Filter</h3>
+            <div class="box-tools pull-right">
+                @*<button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                            title="Collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>*@
+            </div>
+        </div>
+        <div class="box-body">
+            <form asp-action="Manage" method="post" enctype="multipart/form-data">
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">@SharedLocalizer.GetLocalizedHtmlString("Active")</label>
+                        <select class="form-control select2" name="Active" asp-items="@ViewBag.ddlActive">
+                            <option value="">@SharedLocalizer.GetLocalizedHtmlString("All")</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label for="">&nbsp;</label><br />
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Filter</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title">Details</h3>
+            <div class="box-tools pull-right">
+                @*<button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                        title="Collapse">
+                    <i class="fa fa-minus"></i>
+                </button>*@
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="table-responsive">
+                    <table id="example1" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Name)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Short_Name)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Active)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Createby)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CreateDate)
+                                </th>
+                                <th style="width:100px;text-align:center">
+                                    <a asp-action="Create" class="btn btn-icon btn-success" title="@SharedLocalizer.GetLocalizedHtmlString("Create new")">
+                                        <i class="fa fa-plus"></i>
+                                    </a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Short_Name)
+                                    </td>
+                                    <td>
+                                        @(item.Active == true ? SharedLocalizer.GetLocalizedHtmlString("Active") : SharedLocalizer.GetLocalizedHtmlString("Inactive"))
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Createby)
+                                    </td>
+                                    <td>
+                                        @(Convert.ToDateTime(item.CreateDate).ToString("dd/MM/yyyy HH:mm:ss"))
+                                    </td>
+                                    <td style="text-align:center">
+                                        @{
+                                            CONSULS_SYSTEM.Class.Class_Resource cls = new CONSULS_SYSTEM.Class.Class_Resource();
+                                            string id = cls.Base64Encode(item.Country_ID.ToString());
+                                        }
+                                        <a asp-action="Edit" asp-route-id="@id" class="btn btn-warning" title="@SharedLocalizer.GetLocalizedHtmlString("Edit")"><i class="fa fa-edit"></i></a>
+                                        | <a asp-action="Delete" asp-route-id="@id" onclick="return confirm('Confirm delete ?')"
+                                             class="btn btn-danger" title="@SharedLocalizer.GetLocalizedHtmlString("Delete")"><i class="fa fa-fw fa-remove"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+    </div>
+</section>
+
+@if (Model.Count() < 5)
+{
+    <div style="height:200px;"></div>
+}

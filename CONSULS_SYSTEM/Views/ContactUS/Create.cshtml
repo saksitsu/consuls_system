@@ -1,0 +1,81 @@
+﻿@model CONSULS_SYSTEM.Models.MT_ContactUS
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_Layout_admin";
+}
+
+<h2>Create</h2>
+
+<h4>MT_ContactUS</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email_1" class="control-label"></label>
+                <input asp-for="Email_1" class="form-control" />
+                <span asp-validation-for="Email_1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email_2" class="control-label"></label>
+                <input asp-for="Email_2" class="form-control" />
+                <span asp-validation-for="Email_2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email_3" class="control-label"></label>
+                <input asp-for="Email_3" class="form-control" />
+                <span asp-validation-for="Email_3" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone_Number1" class="control-label"></label>
+                <input asp-for="Phone_Number1" class="form-control" />
+                <span asp-validation-for="Phone_Number1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone_Number2" class="control-label"></label>
+                <input asp-for="Phone_Number2" class="form-control" />
+                <span asp-validation-for="Phone_Number2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone_Number3" class="control-label"></label>
+                <input asp-for="Phone_Number3" class="form-control" />
+                <span asp-validation-for="Phone_Number3" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Google_Map_URL" class="control-label"></label>
+                <input asp-for="Google_Map_URL" class="form-control" />
+                <span asp-validation-for="Google_Map_URL" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Active" class="control-label"></label>
+                <input asp-for="Active" class="form-control" />
+                <span asp-validation-for="Active" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Createby" class="control-label"></label>
+                <input asp-for="Createby" class="form-control" />
+                <span asp-validation-for="Createby" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreateDate" class="control-label"></label>
+                <input asp-for="CreateDate" class="form-control" />
+                <span asp-validation-for="CreateDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

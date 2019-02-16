@@ -1,0 +1,82 @@
+﻿@model CONSULS_SYSTEM.Models.MT_AboutUS
+@using CONSULS_SYSTEM.Resources
+@using Microsoft.AspNetCore.Http;
+
+@inject LocService SharedLocalizer
+@{
+    Layout = "_Layout_admin";
+    ViewData["Title"] = "Create";
+}
+<section class="content-header">
+    <h1>
+        Data
+        <small> management</small>
+    </h1>
+    <!--<ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Examples</a></li>
+        <li class="active">Blank page</li>
+    </ol>-->
+</section>
+<section class="content">
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title">@SharedLocalizer.GetLocalizedHtmlString("Edit") - @SharedLocalizer.GetLocalizedHtmlString("About us")</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                        title="Collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+            <form asp-action="Edit" method="post" class="form-horizontal">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="box-body">
+                    <div class="col-md-offset-2 col-md-8">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input asp-for="ID" value="@Model.ID" type="hidden" />
+                        <div class="form-group">
+                            <label asp-for="Title" class="control-label"></label>
+                            <input asp-for="Title" class="form-control" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Description" class="control-label"></label>
+                            <textarea asp-for="Description" id="editor" rows="5" cols="40" class="form-control"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Title2" class="control-label"></label>
+                            <input asp-for="Title2" class="form-control" />
+                            <span asp-validation-for="Title2" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Description2" class="control-label"></label>
+                            <textarea asp-for="Description2" id="editor2" rows="5" cols="40" class="form-control"></textarea>
+                            <span asp-validation-for="Description2" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Active" class="control-label"></label>
+                            <input type="checkbox" name="Active" @(Model.Active == true ? "checked" : "") value=true data-toggle="toggle" data-onstyle="success" />
+                            <span asp-validation-for="Active" class="text-danger"></span>
+                        </div>
+                        <div class="form-group" style="float:right">
+                            <a asp-action="Manage" class="btn btn-default"><i class="fa fa-mail-reply"></i> Back</a>
+                            <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-footer -->
+            </form>
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+</section>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

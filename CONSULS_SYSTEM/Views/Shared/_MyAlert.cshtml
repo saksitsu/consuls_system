@@ -1,0 +1,67 @@
+﻿@using CONSULS_SYSTEM.Resources
+@inject LocService SharedLocalizer
+
+@if (ViewBag.MyAlert != null)
+{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <a href="#" onclick="clickme3(@SharedLocalizer.GetLocalizedHtmlString(@ViewBag.MyAlert.Message))" id="MyAlert"></a>
+    <script type="text/javascript">
+
+        $(function () {
+            NotificationCheck();
+        });
+
+        function NotificationCheck() {
+                var Status = '@ViewBag.MyAlert.Status';
+
+            if (Status == "true") {
+                click_success('@SharedLocalizer.GetLocalizedHtmlString(@ViewBag.MyAlert.Message)');
+            } else if (Status == "false") {
+                click_error('@SharedLocalizer.GetLocalizedHtmlString(@ViewBag.MyAlert.Message)');
+            } else if (Status == "message") {
+                click_message('@SharedLocalizer.GetLocalizedHtmlString(@ViewBag.MyAlert.Message)');
+            }
+        }
+
+    function click_confirm() {
+        swal({
+            title: "Are you sure?",
+            text: "You will not be able to recover this imaginary file!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel plx!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+                    $('#btnSave').trigger('click');
+                    swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                } else {
+                    swal("Cancelled", "Your imaginary file is safe :)", "error");
+                }
+            });
+    }
+
+    function click_error(message) {
+        swal(
+            '@SharedLocalizer.GetLocalizedHtmlString("Error")',
+            message,
+            'error'
+        )
+    }
+
+    function click_success(message) {
+        swal(
+            '@SharedLocalizer.GetLocalizedHtmlString("Success")',
+            message,
+            'success'
+        )
+    }
+    function click_message(message) {
+        swal(message)
+    }
+    </script>
+}

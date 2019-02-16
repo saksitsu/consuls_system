@@ -1,0 +1,189 @@
+﻿@model CONSULS_SYSTEM.Models.TB_MessageToAdmin
+@using CONSULS_SYSTEM.Resources
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+
+@inject LocService SharedLocalizer
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_Layout_member";
+    var Json_user = Context.Session.GetString("session_user");
+
+    var List_user = new CONSULS_SYSTEM.Models.TB_Member();
+    if (Json_user != null)
+    {
+        List_user = JsonConvert.DeserializeObject<CONSULS_SYSTEM.Models.TB_Member>(Json_user);
+
+    }
+    var model_contact = (CONSULS_SYSTEM.Models.MT_ContactUS)@ViewData["details_contact"];
+}
+<style type="text/css">
+    .navbar-custom {
+        background-color: black; /*transparent;*/
+    }
+
+   
+
+    
+</style>
+<!-- Contact Section -->
+
+<section id="contact">
+    <div class="container">
+        <div class="row" style="border-radius:10px;background-color:#fcf8e347;">
+            <div class="col-lg-12 text-center">
+                <br />
+                <h2 class="section-heading">@SharedLocalizer.GetLocalizedHtmlString("Contact")</h2>
+                <!--Address-->
+                <div class="row">
+                    <div class="col-lg-12" style="color:white;text-align:left;font-size:20px;">
+                        <b>The Honorary Consuls Association of Thailand (HCAT)</b>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12" style="color:white;text-align:left;font-size:15px;">
+                        @(model_contact != null ? model_contact.Address : "")
+                    </div>
+                </div>
+                <!--Contact1-->
+                <div class="row" style="padding-top:10px;">
+                    <div class="col-lg-12" style="color:white;text-align:left;font-size:18px;">
+                        <b>@SharedLocalizer.GetLocalizedHtmlString("Email_1")</b>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12" style="color:white;text-align:left;font-size:15px;">
+                        Email :@(model_contact != null ? model_contact.Email_1 : "") , Tel. : @(model_contact != null ? model_contact.Phone_Number1 : "")
+                    </div>
+                </div>
+                <!--Contact2-->
+                <div class="row" style="padding-top:10px;">
+                    <div class="col-lg-12" style="color:white;text-align:left;font-size:18px;">
+                        <b>@SharedLocalizer.GetLocalizedHtmlString("Email_2")</b>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12" style="color:white;text-align:left;font-size:15px;">
+                        Email : @(model_contact != null ? model_contact.Email_2 : "") , Tel. : @(model_contact != null ? model_contact.Phone_Number2 : "")
+                    </div>
+                </div>
+                <!--Contact3-->
+                <div class="row" style="padding-top:10px;">
+                    <div class="col-lg-12" style="color:white;text-align:left;font-size:18px;">
+                        <b>@SharedLocalizer.GetLocalizedHtmlString("Email_3")</b>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12" style="color:white;text-align:left;font-size:15px;">
+                        Email : @(model_contact != null ? model_contact.Email_3 : "") , Tel. : @(model_contact != null ? model_contact.Phone_Number3 : "")
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <!--Member-->
+        @if (List_user.Level_ID == 1)
+        {
+            <div class="row">
+                <div class="col-lg-12">
+                    <form asp-action="Index" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="IsMember" value=true />
+                        <input type="hidden" asp-for="Type" value="1" />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input asp-for="User_ID" value="@List_user.User_ID" readonly class="form-control" placeholder="@SharedLocalizer.GetLocalizedHtmlString("Your Username *")">
+                                    <span asp-validation-for="User_ID" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="Name" value="@List_user.Name @List_user.Sub_Name" readonly class="form-control" placeholder="@SharedLocalizer.GetLocalizedHtmlString("Your Name *")">
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" readonly value="@List_user.Email" asp-for="Email" class="form-control" placeholder="@SharedLocalizer.GetLocalizedHtmlString("Your Email *")">
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input type="tel" asp-for="Phone_Number" readonly value="@List_user.Phone_Number" class="form-control" placeholder="@SharedLocalizer.GetLocalizedHtmlString("Your Phone *")">
+                                    <span asp-validation-for="Phone_Number" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select asp-for="Topic" class="form-control">
+                                        <option value="News">@SharedLocalizer.GetLocalizedHtmlString("News")</option>
+                                        <option value="Events">@SharedLocalizer.GetLocalizedHtmlString("Events")</option>
+                                        <option value="Minutes">@SharedLocalizer.GetLocalizedHtmlString("Minutes")</option>
+                                        <option value="Privilege">@SharedLocalizer.GetLocalizedHtmlString("Privilege")</option>
+                                        <option value="Other">@SharedLocalizer.GetLocalizedHtmlString("Other")</option>
+                                    </select>
+                                    <span asp-validation-for="Topic" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="Title" class="form-control" placeholder="@SharedLocalizer.GetLocalizedHtmlString("Your Title *")">
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <textarea class="form-control" asp-for="Message" placeholder="@SharedLocalizer.GetLocalizedHtmlString("Your Message *")"></textarea>
+                                    <span asp-validation-for="Message" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-lg-12 text-center">
+                                <div id="success"></div>
+                                <button type="submit" class="btn btn-xl">@SharedLocalizer.GetLocalizedHtmlString("Send message")</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-lg-12">
+                    <form asp-action="Index" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="IsMember" value=false />
+                        <input type="hidden" asp-for="Topic" value="Public" />
+                        <input type="hidden" asp-for="Type" value="3" />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input asp-for="Name" class="form-control" placeholder="@SharedLocalizer.GetLocalizedHtmlString("Your Name *")">
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" asp-for="Email" class="form-control" placeholder="@SharedLocalizer.GetLocalizedHtmlString("Your Email *")">
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input type="tel" asp-for="Phone_Number" class="form-control" placeholder="@SharedLocalizer.GetLocalizedHtmlString("Your Phone *")">
+                                    <span asp-validation-for="Phone_Number" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input asp-for="Title" class="form-control" placeholder="@SharedLocalizer.GetLocalizedHtmlString("Your Title *")">
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <textarea class="form-control" asp-for="Message" placeholder="@SharedLocalizer.GetLocalizedHtmlString("Your Message *")"></textarea>
+                                    <span asp-validation-for="Message" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-lg-12 text-center">
+                                <div id="success"></div>
+                                <button type="submit" class="btn btn-xl">@SharedLocalizer.GetLocalizedHtmlString("Send message")</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        }
+
+    </div>
+</section>

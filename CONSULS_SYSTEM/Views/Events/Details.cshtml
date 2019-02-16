@@ -1,0 +1,74 @@
+﻿@model CONSULS_SYSTEM.Models.TB_Events
+@using CONSULS_SYSTEM.Resources
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+
+@inject LocService SharedLocalizer
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout_member.cshtml";
+}
+<link href="~/layout_admin/dist/css/AdminLTE.css" rel="stylesheet" />
+<style type="text/css">
+    /*section {
+        margin-top: 3%;
+    }*/
+
+    .navbar-custom {
+        background-color: black; /*transparent;*/
+        /*padding: 25px 0;
+        -webkit-transition: padding 0.3s;
+        -moz-transition: padding 0.3s;
+        transition: padding 0.3s;
+        border: none;*/
+    }
+    .navbar-toggle {
+        position: relative;
+        float: right;
+        padding: 9px 10px;
+        margin-top: 8px;
+        margin-right: 15px;
+        margin-bottom: 8px;
+        background-color: transparent;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+</style>
+
+<br />
+<section id="Events">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box box-widget">
+                    <div class="box-header with-border">
+                        <div class="user-block">
+                            <h4 class="section-heading">@Model.Title</h4>
+                            <span class="section-subheading">@Model.Createby on @Convert.ToDateTime(Model.CreateDate).ToString("MMM dd yyyy")</span>
+                        </div>
+                        <div class="box-tools">
+                            <h5><a asp-action="Index" class="btn btn-box-tool"><i class="fa fa-angle-left" style="font-size:15px;"> @SharedLocalizer.GetLocalizedHtmlString("Back")</i></a></h5>
+                        </div>
+                        <!-- /.box-tools -->
+                    </div>
+                    <div class="box-body text-center">
+                        @if (Model.Img_Url == null)
+                        {
+                            @*<img src="~/layout_admin/Upload-Image/img/demoUpload.jpg" alt="">*@
+                        }
+                        else
+                        {
+                            <img src="@Url.Content(Model.Img_Url)" class="img-responsive img-centered" style="border:3px solid #ffffff; border-radius:10px;width:100%" alt="">
+                        }
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <p class="section-subheading text-muted">@Model.Description</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

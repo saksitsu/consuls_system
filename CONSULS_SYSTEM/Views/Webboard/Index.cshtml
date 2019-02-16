@@ -1,0 +1,360 @@
+﻿@model CONSULS_SYSTEM.Controllers.WebboardController.Model
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout_member.cshtml";
+}
+
+@using CONSULS_SYSTEM.Resources
+@inject LocService SharedLocalizer
+<!-- Favicon  -->
+<link rel="icon" href="~/img/core-img/favicon.ico">
+
+<!-- Style CSS -->
+<link href="~/style.css" rel="stylesheet" />
+<link href="~/layout_admin/dist/css/AdminLTE.css" rel="stylesheet" />
+
+<style type="text/css">
+    
+    .header-link {
+        color: black !important;
+        font-weight: bold !important;
+    }
+
+    .delete-icon {
+        /*position: absolute;*/
+        z-index: 900;
+        float: right;
+    }
+
+    .post-content {
+        width: 100%
+    }
+
+    .header-link {
+        color: black;
+        font-weight: bold
+    }
+
+    .navbar-toggle {
+        position: relative;
+        float: right;
+        padding: 9px 10px;
+        margin-top: 8px;
+        margin-right: 15px;
+        margin-bottom: 8px;
+        background-color: transparent;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+
+    .navbar-custom {
+        background-color: black;
+    }
+
+    .box.box-warning {
+        border-top-color: #efd167;
+    }
+
+    .bg-yellow, .callout.callout-warning, .alert-warning, .label-warning, .modal-warning .modal-body {
+        background-color: #efd167 !important;
+    }
+
+    .read-more {
+        font-size: 10px !important;
+    }
+
+    .span-createby {
+        font-size: 14px !important;
+    }
+
+    .span-awswer {
+        font-size: 12px !important;
+    }
+   
+    .section-padding-100 {
+        padding: 120px 0 !important;
+    }
+</style>
+
+<script type="text/javascript">
+
+    function Delete(id) {
+        swal({
+            title: "Are you sure?",
+            text: "You want to delete this topic?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Yes, I am sure!',
+            cancelButtonText: "No, cancel it!"
+        }, async function () {
+            await $.ajax({
+                url: '@Url.Action("Delete", "Webboard")',
+                data: { id: id },
+                type: "POST",
+                dataType: "html",
+                success: function (result) {
+                    location.reload();
+                }
+            });
+        },
+            function () { return false; });
+    }
+</script>
+
+
+
+<div class="main-content-wrapper">
+    <div class="container">
+        <div class="row justify-content-center">
+            <!-- ============= Post Content Area Start ============= -->
+            <div class="col-12 col-lg-12">
+                <div class="post-content-area mb-50">
+                    <!-- Catagory Area -->
+                    <div class="world-catagory-area">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="title">
+                                <h1>Webboard</h1>
+                                <div class="box-tools">
+                                    <a asp-action="Create" class="btn btn-box-tool"><i class="fa fa-plus"></i>  NEW TOPIC</a>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="world-tab-1" role="tabpanel" aria-labelledby="tab1">
+                                @{
+                                    var lt_webboard = Model.Lst_TB_Webboard.ToList();
+                                    <div class="row">
+                                        <div class="col-12 col-md-8">
+                                            <div class="world-catagory-slider owl-carousel wow fadeInUpBig" data-wow-delay="0.1s">
+                                                @for (int i = 0; i < lt_webboard.Count; i++)
+                                                {
+                                                    if (i < 4)
+                                                    {
+                                                        <div class="single-blog-post">
+                                                            <!-- Post Thumbnail -->
+                                                            <div class="post-thumbnail">
+                                                                @if (lt_webboard[i].Img_Url == null)
+                                                                {
+                                                                    <img src="" alt="~/layout_admin/Upload-Image/img/demoUpload.jpg" style="width:580px !important;height:298px !important">
+                                                                }
+                                                                else
+                                                                {
+                                                                    <img src="@Url.Content(lt_webboard[i].Img_Url)" style="width:100% !important;height:358px !important">
+                                                                }
+                                                            </div>
+                                                            <!-- Post Content -->
+
+                                                            <div class="post-content">
+                                                                @{
+                                                                    if (Model.IsAdmin || Model.UserID == lt_webboard[i].Createby)
+                                                                    {
+                                                                        <a onclick="Delete(@lt_webboard[i].ID)" class="btn btn-box-tool delete-icon"><i class="fa fa-times"></i></a>
+                                                                        <a asp-action="Edit" asp-controller="Webboard" asp-route-id="@lt_webboard[i].ID" class="btn btn-box-tool delete-icon"><i class="fa fa-pencil"></i></a>
+                                                                    }
+                                                                }
+
+                                                                <a href="#" class="headline">
+                                                                    <a asp-action="Details" asp-controller="Webboard" asp-route-id="@lt_webboard[i].ID" class="header-link"><h4>@lt_webboard[i].Title</h4></a>
+                                                                </a>
+                                                                <p>
+                                                                    @{
+                                                                        if (lt_webboard[i].Description != null)
+                                                                        {
+                                                                            if (lt_webboard[i].Description.Length > 100)
+                                                                            {
+                                                                                <lable class="span-awswer">@string.Format("{0}...", lt_webboard[i].Description.Substring(0, 100));</lable>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <lable class="span-awswer">@lt_webboard[i].Description</lable>
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    <br>
+                                                                    <a asp-action="Details" asp-controller="Webboard" asp-route-id="@lt_webboard[i].ID" class="header-link read-more">Read more</a>
+                                                                </p>
+
+                                                                <!-- Post Meta -->
+                                                                <div class="post-meta">
+                                                                    <div class="box-comment">
+                                                                        <img class="img-circle img-sm" src="@Url.Content(lt_webboard[i].image_user!=null?lt_webboard[i].image_user:"~/img/logo.jpg")" alt="User Image">
+                                                                        <div class="comment-text">
+                                                                            <br />
+                                                                            &nbsp;
+                                                                            <a href="#" class="post-author">@lt_webboard[i].name_user</a> on <a href="#" class="post-date">@Convert.ToDateTime(@lt_webboard[i].CreateDate).ToString("MMM dd yyyy")</a>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                }
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <br />
+                                            <div class="box box-warning direct-chat direct-chat-warning">
+                                                <div class="box-header with-border bg-yellow">
+                                                    <h3 class="widget-user-username">@SharedLocalizer.GetLocalizedHtmlString("List all of") @SharedLocalizer.GetLocalizedHtmlString("Topic")</h3>
+                                                    <h5 class="widget-user-desc">@SharedLocalizer.GetLocalizedHtmlString("Order by date descending.")</h5>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="direct-chat-messages" style="min-height:500px;">
+                                                        <div class="direct-chat-msg">
+                                                            <div class="box-footer no-padding">
+                                                                <ul class="nav nav-stacked">
+                                                                    @for (int a = 4; a < lt_webboard.Count; a++)
+                                                                    {
+
+                                                                        <li>
+                                                                            <a asp-action="Details" asp-controller="Webboard" asp-route-id="@lt_webboard[a].ID" style="padding: 10px 0px !important; ">
+                                                                                @lt_webboard[a].Title
+                                                                                @{
+                                                                                    if (Model.IsAdmin || Model.UserID == lt_webboard[a].Createby)
+                                                                                    {
+                                                                                        <a onclick="Delete(@lt_webboard[a].ID)" class="btn btn-box-tool delete-icon"><i class="fa fa-times"></i></a>
+                                                                                        <a asp-action="Edit" asp-controller="Webboard" asp-route-id="@lt_webboard[a].ID" class="btn btn-box-tool delete-icon"><i class="fa fa-pencil"></i></a>
+                                                                                    }
+                                                                                }
+                                                                                <br />
+                                                                                <span class="text-warning" style="font-size:12px;">@lt_webboard[a].name_user on @Convert.ToDateTime(@lt_webboard[a].CreateDate).ToString("MMM dd yyyy")</span><br />
+                                                                            </a>
+                                                                        </li>
+                                                                    }
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        @*<div class="col-12 col-md-6">
+                                                @for (int a = 4; a < lt_webboard.Count; a++)
+                                                {
+                                                    if (a < 9)
+                                                    {
+                                                        <div class="single-blog-post post-style-2 d-flex align-items-center wow fadeInUpBig" data-wow-delay="0.2s">
+                                                            <!-- Post Thumbnail -->
+                                                            <div class="post-thumbnail">
+                                                                @if (lt_webboard[a].Img_Url == null)
+                                                                {
+                                                                    <img src="~/layout_admin/Upload-Image/img/demoUpload.jpg" alt="" style="width:97px;height:97px">
+                                                                }
+                                                                else
+                                                                {
+                                                                    <img src="@Url.Content(lt_webboard[a].Img_Url)" style="width:97px;height:97px">
+                                                                }
+                                                            </div>
+                                                            <!-- Post Content -->
+                                                            <div class="post-content">
+                                                                @{
+                                                                    if (Model.IsAdmin || Model.UserID == lt_webboard[a].Createby)
+                                                                    {
+                                                                        <a onclick="Delete(@lt_webboard[a].ID)" class="btn btn-box-tool delete-icon"><i class="fa fa-times"></i></a>
+                                                                        <a asp-action="Edit" asp-controller="Webboard" asp-route-id="@lt_webboard[a].ID" class="btn btn-box-tool delete-icon"><i class="fa fa-pencil"></i></a>
+                                                                    }
+                                                                }
+                                                                <a href="#" class="headline">
+                                                                    <h5><a asp-action="Details" asp-controller="Webboard" asp-route-id="@lt_webboard[a].ID" class="header-link">@lt_webboard[a].Title</a></h5>
+                                                                </a>
+                                                                <!-- Post Meta -->
+                                                                <div class="post-meta">
+                                                                    <p><a href="#" class="post-author">@lt_webboard[a].Createby</a> on <a href="#" class="post-date">@Convert.ToDateTime(@lt_webboard[a].CreateDate).ToString("MMM dd yyyy")</a></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>*@
+                                    </div>
+
+
+
+
+                                    @*<div class="row" style="padding-top:2%">
+                                            <div class="tab-pane fade show active" id="world-tab-1" role="tabpanel" aria-labelledby="tab1">
+                                                @{
+                                                    @for (int b = 9; b < lt_webboard.Count; b++)
+                                                    {
+                                                        <div class="col-md-4">
+                                                            <br />
+                                                            <div class="box box-warning direct-chat direct-chat-warning">
+                                                                <div class="box-header with-border bg-yellow">
+                                                                    <h3 class="widget-user-username">@SharedLocalizer.GetLocalizedHtmlString("List all of") @SharedLocalizer.GetLocalizedHtmlString("News")</h3>
+                                                                    <h5 class="widget-user-desc">@SharedLocalizer.GetLocalizedHtmlString("Order by date descending.")</h5>
+                                                                </div>
+                                                                <div class="box-body">
+                                                                    <div class="direct-chat-messages" style="min-height:500px;">
+                                                                        <div class="direct-chat-msg">
+                                                                            <div class="box-footer no-padding">
+                                                                                <ul class="nav nav-stacked">
+                                                                                    <div class="single-blog-post post-style-4 d-flex align-items-center">
+                                                                                        <!-- Post Thumbnail -->
+                                                                                        <div class="post-thumbnail">
+                                                                                            <img src="@Url.Content(lt_webboard[b].Img_Url)" class="img-responsive img-centered img-card" alt="" style="width:200px;height:200px">
+                                                                                        </div>
+                                                                                        <!-- Post Content -->
+                                                                                        <div class="post-content">
+                                                                                            <a href="#" class="headline">
+                                                                                                <h5><a asp-action="Details" asp-controller="Webboard" asp-route-id="@lt_webboard[b].ID" class="header-link">@lt_webboard[b].Title</a></h5>
+                                                                                            </a>
+                                                                                            <p>
+                                                                                                @{
+                                                                                                    if (lt_webboard[b].Description.Length > 500)
+                                                                                                    {
+                                                                                                        @string.Format("{0}...", lt_webboard[b].Description.Substring(0, 500));
+                                                                                                    }
+                                                                                                    else
+                                                                                                    {
+                                                                                                        @lt_webboard[b].Description
+                                                                                                    }
+                                                                                                }
+                                                                                                <br /><br /><a asp-action="Details" asp-controller="News" asp-route-id="@lt_webboard[b].ID" class="header-link">Read more</a>
+                                                                                            </p>
+                                                                                            <!-- Post Meta -->
+                                                                                            <div class="post-meta">
+                                                                                                <p><a href="#" class="post-author">@lt_webboard[b].Createby</a> on <a href="#" class="post-date">@Convert.ToDateTime(lt_webboard[b].CreateDate).ToString("MMM dd yyyy")</a></p>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>*@
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery (Necessary for All JavaScript Plugins) -->
+<script src="~/js/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="~/js/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="~/js/bootstrap.min.js"></script>
+<!-- Plugins js -->
+<script src="~/js/plugins.js"></script>
+<!-- Active js -->
+<script src="~/js/active.js"></script>

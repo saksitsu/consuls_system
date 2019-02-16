@@ -1,0 +1,155 @@
+﻿@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Http.Features
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
+@using Microsoft.AspNetCore.Http.Extensions;
+@using CONSULS_SYSTEM.Resources
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@inject LocService SharedLocalizer
+@inject IViewLocalizer Localizer
+@inject IOptions<RequestLocalizationOptions> LocOptions
+
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var cultureItems = LocOptions.Value.SupportedUICultures
+        .Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName })
+        .ToList();
+    string select_lang = "", display = "", font_size = "", curent_lang = "";
+    curent_lang = requestCulture.RequestCulture.UICulture.TwoLetterISOLanguageName;
+    if (curent_lang.Equals("th"))
+    {
+        select_lang = "en-US";
+        display = "EN";
+        font_size = "14px";
+    }
+    else
+    {
+        select_lang = "th-TH";
+        display = "TH";
+        font_size = "13px";
+    }
+}
+
+@{
+    var Json_menu = Context.Session.GetString("session_menu");
+    string page_current = ""; string[] menu = null;
+
+    var List_Menu = new List<CONSULS_SYSTEM.Models.TB_Menu_Authorize>();
+    if (Json_menu != null)
+    {
+        List_Menu = JsonConvert.DeserializeObject<List<CONSULS_SYSTEM.Models.TB_Menu_Authorize>>(Json_menu);
+
+        menu = Microsoft.AspNetCore.Http.Extensions.UriHelper.GetDisplayUrl(Context.Request).Split("/");
+    }
+}
+
+<ul style="float:right">
+
+    @foreach (TB_Menu_Authorize item in List_Menu)
+    {
+        if (item.Menu_ID != "M01")
+        {
+            <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" asp-action="@item.menu_info.Action" asp-controller="@item.menu_info.Controller"
+                   style="font-size:@font_size;@((menu[menu.Length - 1] == item.menu_info.Controller
+                        || menu[menu.Length - 3] == item.menu_info.Controller
+                        || (menu.Length > 5 ? menu[menu.Length - 4] : menu[menu.Length - 3]) == item.menu_info.Controller
+
+                        )?"background-color:#efd167;border-radius:5px;":"")">@SharedLocalizer.GetLocalizedHtmlString(@item.menu_info.Name)</a>
+                    </li>
+        }
+     }
+
+    @if (List_Menu[0].Level_ID == 1)
+    {
+        <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" asp-action="Profile" asp-controller="Home" 
+                style="font-size:@font_size
+               @(menu[menu.Length-1] == "Profile"?";background-color:#efd167;border-radius:5px;":"")
+               ">@SharedLocalizer.GetLocalizedHtmlString("My profile")</a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" asp-action="Index" asp-controller="Login" style="font-size:@font_size;">@SharedLocalizer.GetLocalizedHtmlString("Sign in")</a>
+        </li>
+    }
+    <li class="nav-item">
+        <a class="nav-link js-scroll-trigger" asp-action="SetLanguage" asp-controller="Home" asp-route-returnUrl="@Context.Request.GetDisplayUrl()" asp-route-culture="@select_lang" style="font-size:12px;font-weight:bold">
+            <i class="fa fa-language"></i> @display
+        </a>
+    </li>
+</ul>
+
+
+@*<ul class="navbar-nav text-uppercase ml-auto">
+        @foreach (TB_Menu_Authorize item in List_Menu)
+        {
+            <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" asp-action="@item.menu_info.Action" asp-controller="@item.menu_info.Controller"
+                   style="font-size:@font_size;@((menu[menu.Length - 1]==item.menu_info.Controller
+                        || menu[menu.Length - 3]==item.menu_info.Controller
+                        || (menu.Length>5?menu[menu.Length - 4]:menu[menu.Length - 3])==item.menu_info.Controller)?"background-color:#efd167;border-radius:5px;":"")">@SharedLocalizer.GetLocalizedHtmlString(@item.menu_info.Name)</a>
+                    </li>
+                }
+        @if (List_Menu[0].Level_ID == 1)
+        {
+            <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" asp-action="Profile" asp-controller="Home" style="font-size:@font_size;">@SharedLocalizer.GetLocalizedHtmlString("My profile")</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" asp-action="Index" asp-controller="Login" style="font-size:@font_size;">@SharedLocalizer.GetLocalizedHtmlString("Sign in")</a>
+            </li>
+        }
+        <li class="nav-item">
+            <div style="border:2px solid #ffce00; border-radius:15px;text-align:center">
+                <a class="nav-link js-scroll-trigger" asp-action="SetLanguage" asp-controller="Home" asp-route-returnUrl="@Context.Request.GetDisplayUrl()" asp-route-culture="@select_lang" style="font-size:12px;font-weight:bold">
+                    <i class="fa fa-language"></i> @display
+                </a>
+            </div>
+        </li>
+    </ul>*@
+
+
+@*<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+            <li class="hidden">
+                <a href="#page-top"></a>
+            </li>
+            @foreach (TB_Menu_Authorize item in List_Menu)
+            {
+                <li>
+                    <a class="page-scroll" asp-action="@item.menu_info.Action" asp-controller="@item.menu_info.Controller"
+                       style="font-size:@font_size;@((menu[menu.Length - 1]==item.menu_info.Controller
+                        || menu[menu.Length - 3]==item.menu_info.Controller
+                        || (menu.Length>5?menu[menu.Length - 4]:menu[menu.Length - 3])==item.menu_info.Controller)?"background-color:#efd167;border-radius:5px;":"")">@SharedLocalizer.GetLocalizedHtmlString(@item.menu_info.Name)</a>
+                    </li>
+                }
+            @if (List_Menu[0].Level_ID == 1)
+            {
+                <li>
+                    <a class="page-scroll" asp-action="Profile" asp-controller="Home" style="font-size:@font_size;">@SharedLocalizer.GetLocalizedHtmlString("My profile")</a>
+                </li>
+            }
+            else
+            {
+                <li>
+                    <a class="page-scroll" asp-action="Index" asp-controller="Login" style="font-size:@font_size;">@SharedLocalizer.GetLocalizedHtmlString("Sign in")</a>
+                </li>
+            }
+            <li>
+                <div style="border:2px solid #ffce00; border-radius:15px; padding:10px;text-align:center">
+                    <a class="page-scroll" asp-action="SetLanguage" asp-controller="Home" asp-route-returnUrl="@Context.Request.GetDisplayUrl()" asp-route-culture="@select_lang" style="font-size:12px;font-weight:bold">
+                        <i class="fa fa-language"></i> @display
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </div>*@
+

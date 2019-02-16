@@ -1,0 +1,415 @@
+﻿@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Http.Features
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
+@using Microsoft.AspNetCore.Http.Extensions;
+@using CONSULS_SYSTEM.Resources
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@inject LocService SharedLocalizer
+@inject IViewLocalizer Localizer
+@inject IOptions<RequestLocalizationOptions> LocOptions
+@model IEnumerable<CONSULS_SYSTEM.Models.TB_Events>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout_member.cshtml";
+}
+
+<link href="~/style.css" rel="stylesheet" />
+<link href="~/layout_admin/dist/css/AdminLTE.css" rel="stylesheet" />
+<style type="text/css">
+    .header-link {
+        color: black;
+        font-weight: bold
+    }
+
+    .navbar-custom {
+        background-color: black;
+    }
+
+    .navbar-toggle {
+        position: relative;
+        float: right;
+        padding: 9px 10px;
+        margin-top: 8px;
+        margin-right: 15px;
+        margin-bottom: 8px;
+        background-color: transparent;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+
+    .white-button a {
+        color: forestgreen !important;
+        font-weight: bold !important;
+    }
+
+        .white-button a:hover {
+            color: black !important;
+            font-weight: bold !important;
+            background-color: transparent !important;
+        }
+
+    .box.box-warning {
+        border-top-color: #efd167;
+    }
+
+    .bg-yellow, .callout.callout-warning, .alert-warning, .label-warning, .modal-warning .modal-body {
+        background-color: #efd167 !important;
+    }
+
+    /*h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+        font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    }*/
+</style>
+
+@*<link href="~/css/ListTemplate.css" rel="stylesheet" />*@
+
+@*<link href="~/css/ListTemplate.css" rel="stylesheet" />*@
+
+<div class="main-content-wrapper">
+    <div class="container">
+        <div class="row justify-content-center">
+            <!-- ============= Post Content Area Start ============= -->
+            <div class="col-12 col-lg-12">
+                <div class="col-lg-8">
+                    <div class="post-content-area mb-100">
+                        <!-- Catagory Area -->
+                        <div class="world-catagory-area">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="title"><h1>@SharedLocalizer.GetLocalizedHtmlString("Events") - Top5 update</h1></li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="world-tab-1" role="tabpanel" aria-labelledby="tab1">
+                                    @{
+                                        var top5 = Model.OrderByDescending(o => o.CreateDate).Take(5);
+                                        @foreach (var item in top5)
+                                        {
+                                            <div class="single-blog-post post-style-4 d-flex align-items-center">
+                                                <!-- Post Thumbnail -->
+                                                <div class="post-thumbnail">
+                                                    <a href="@Url.Content(item.Img_Url)" target="_blank" title="@item.Title">
+                                                        <img src="@(item.Img_Url != null && !item.Img_Url.Equals("") ?Url.Content(item.Img_Url):"/layout_admin/Upload-Image/img/demoUpload.jpg")" class="img-responsive img-centered img-card" alt="" style="width:200px;height:200px">
+                                                    </a>
+                                                </div>
+                                                <!-- Post Content -->
+                                                <div class="post-content">
+                                                    <a href="#" class="headline">
+                                                        <h5>
+                                                            <a asp-action="Details" asp-route-id="@item.ID" class="header-link">@item.Title</a>
+                                                        </h5>
+                                                    </a>
+                                                    <p>
+                                                        @{
+                                                            if (item.Description.Length > 200)
+                                                            {
+                                                                @string.Format("{0}...", @item.Description.Substring(0, 200));
+                                                            }
+                                                            else
+                                                            {
+                                                                @item.Description
+                                                            }
+                                                        }
+                                                        <br /><br />
+                                                        <a asp-action="Details" asp-route-id="@item.ID" class="header-link">@SharedLocalizer.GetLocalizedHtmlString("Read more")</a>
+                                                    </p>
+                                                    <!-- Post Meta -->
+                                                    <div class="post-meta">
+                                                        <p><a href="#" class="post-author">@item.Createby</a> on <a href="#" class="post-date">@Convert.ToDateTime(item.CreateDate).ToString("MMM dd yyyy")</a></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <br />
+                    <div class="box box-warning direct-chat direct-chat-warning">
+                        <div class="box-header with-border bg-yellow">
+                            <h3 class="widget-user-username">@SharedLocalizer.GetLocalizedHtmlString("List all of") @SharedLocalizer.GetLocalizedHtmlString("Events")</h3>
+                            <h5 class="widget-user-desc">@SharedLocalizer.GetLocalizedHtmlString("Order by date descending.")</h5>
+                        </div>
+                        <div class="box-body">
+                            <div class="direct-chat-messages" style="min-height:500px;">
+                                <div class="direct-chat-msg">
+                                    <div class="box-footer no-padding">
+                                        <ul class="nav nav-stacked">
+                                            @foreach (var item in Model.Skip(5))
+                                            {
+                                                <li>
+                                                    <a asp-action="Details" asp-route-id="@item.ID">
+                                                        @item.Title
+                                                        <br />
+                                                        <span class="text-warning" style="font-size:12px;">@item.Createby on @Convert.ToDateTime(item.CreateDate).ToString("MMM dd yyyy")</span>
+                                                        <span class="pull-right"><i class="fa fa-eye"></i></span>
+                                                    </a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery (Necessary for All JavaScript Plugins) -->
+<script src="~/js/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="~/js/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="~/js/bootstrap.min.js"></script>
+<!-- Plugins js -->
+<script src="~/js/plugins.js"></script>
+<!-- Active js -->
+<script src="~/js/active.js"></script>
+@*<style type="text/css">
+        body {
+            background: #fafafa;
+        }
+
+        .events {
+            margin-top: 10px;
+            padding-top: 100px;
+            padding-bottom: 100px;
+            text-align: center;
+            background-image: url(../img/events-bg.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+        }
+
+            .events .filter-categories {
+                list-style: none;
+                margin-top: 0px;
+                padding-right: 0px;
+                text-align: center;
+                margin-bottom: 60px;
+            }
+
+                .events .filter-categories li {
+                    display: inline;
+                    text-align: center;
+                    margin: 8px 0px;
+                }
+
+                .events .filter-categories li {
+                    display: block;
+                    transition: all 0.5s;
+                    text-align: center;
+                    text-decoration: none;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    color: #121212;
+                    font-size: 17px !important;
+                    font-weight: 600;
+                    display: inline-block;
+                    max-width: 200px;
+                    width: 200px;
+                    height: 70px;
+                    line-height: 70px;
+                    background-color: #fff;
+                    cursor: pointer;
+                }
+
+        .filter-categories ul li.active span {
+            color: #f4bc51;
+        }
+
+        .project-item {
+            width: 100%;
+        }
+
+        .event-list {
+            background-color: #fff;
+        }
+
+            .event-list ul {
+                padding: 0;
+                margin: 0;
+                list-style: none;
+            }
+
+                .event-list ul li {
+                    display: block;
+                    text-align: left;
+                    margin-bottom: 5px;
+                }
+
+                    .event-list ul li:last-child {
+                        margin-bottom: 0px;
+                    }
+
+                .event-list ul .first-child {
+                    background-color: #eee;
+                }
+
+                .event-list ul .second-child {
+                    background-color: #ddd;
+                }
+
+                .event-list ul .third-child {
+                    background-color: #eee;
+                }
+
+                .event-list ul .fourth-child {
+                    background-color: #ddd;
+                }
+
+                .event-list ul .fivth-child {
+                    background-color: #eee;
+                }
+
+                .event-list ul li .date span {
+                    background-color: #f4bc51;
+                    width: 80px;
+                    height: 80px;
+                    text-align: center;
+                    line-height: 25px;
+                    margin-right: 0px;
+                }
+
+            .event-list .event-item {
+                margin: 0;
+                padding: 0;
+                list-style: none;
+            }
+
+                .event-list .event-item li {
+                    display: inline-block;
+                    padding: 10px;
+                }
+
+                    .event-list .event-item li:last-child {
+                        float: right;
+                        margin-top: 30px;
+                        margin-right: 20px;
+                    }
+
+                .event-list .event-item .time span {
+                    text-align: center;
+                    margin-left: 50px;
+                    color: #4a4a4a;
+                    font-weight: 300;
+                    font-size: 15px;
+                    display: inline-block;
+                }
+
+            .event-list ul li .date span {
+                padding-top: 15px;
+                margin-top: 0px;
+                font-size: 18px;
+                display: block;
+                font-weight: 700;
+                color: #fff;
+                text-transform: uppercase;
+            }
+
+            .event-list h4 {
+                width: 300px;
+                margin-top: 0px;
+                font-size: 18px;
+                text-transform: uppercase;
+                color: #121212;
+                font-weight: 700;
+                margin-bottom: 5px;
+                display: inline-block;
+            }
+
+            .event-list .web span {
+                font-size: 13px;
+                font-weight: 600;
+                color: #b94e5e;
+                display: inline-block;
+            }
+
+            .event-list .design span {
+                font-size: 13px;
+                font-weight: 600;
+                color: #e86859;
+                display: inline-block;
+            }
+
+            .event-list .app span {
+                font-size: 13px;
+                font-weight: 600;
+                color: #f4bc51;
+                display: inline-block;
+            }
+
+
+            .event-list .white-button a:hover {
+                background-color: #f4bc51;
+                color: #fff;
+            }
+
+        .event-list {
+            transition: all 0.5s;
+            height: 545px;
+        }
+    </style>*@
+
+@*<section class="events" id="events-section">
+        <div class="content-wrapper">
+            <div class="inner-container container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h2 class="section-heading">Events</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10 col-sm-12 col-md-offset-1">
+                        <div class="projects-holder">
+                            <div class="event-list">
+                                <ul>
+                                    @foreach (var item in Model.OrderBy(x=>x.EventsDate))
+                                    {
+                                        <li class="project-item second-child mix design">
+                                            <ul class="event-item design">
+                                                <li>
+                                                    <div class="date">
+                                                        @{
+                                                            DateTime dt = (DateTime)item.EventsDate;
+                                                            <span>@dt.Day<br>@dt.ToString("MMM")</span>
+                                                        }
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <h4>@item.Title</h4>
+                                                    <div class="design">
+                                                        <a asp-action="Details" asp-route-id="@item.ID"><span>Click Here</span></a>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="time">
+                                                        <span><br></span>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="white-button">
+                                                        <a href="#">Join Meeting</a>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>*@

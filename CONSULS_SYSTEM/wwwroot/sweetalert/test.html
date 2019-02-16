@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="sweet-alert/sweet-alert.min.css" rel="stylesheet">
+</head>
+
+
+<body>
+    <button class="btn btn-info btn-sm" id="sa-params" onclick="clickme1()">Click me1</button>
+    <button class="btn btn-info btn-sm" id="sa-params" onclick="clickme2()">Click me2</button>
+    <button class="btn btn-info btn-sm" id="sa-params" onclick="clickme3()">Click me3</button>
+    <button class="btn btn-info btn-sm" id="sa-params" onclick="clickme4()">Click me4</button>
+    <script>
+        //Parameter
+        function clickme1() {
+            swal({
+                title: "จูล่งอ่อน",
+                text: "อ่อนจริง ๆ นะ ไม่เชื่อถามกรสิ",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "เออว่ะ จริงของมัน",
+                cancelButtonText: "ไม่นะ นายใส่ร้ายเพื่อน",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    swal("ช่าย !", "ใช่แล้ว นายคิดถูก", "success");
+                } else {
+                    swal("ม่าย ๆ", "อย่าว่าเพื่อนอย่างนั้น)", "error");
+                }
+            });
+        }
+
+        function clickme2() {
+            swal(
+                'In error !',
+                'You clicked the button!',
+                'error'
+            )
+        }
+        function clickme3() {
+            swal(
+                'Good job!',
+                'You clicked the button!',
+                'success'
+            )
+        }
+        function clickme4() {
+            swal('Any fool can use a computer')
+        }
+    </script>
+
+    <script src="sweet-alert/sweet-alert.min.js"></script>
+
+</body>
+</html>

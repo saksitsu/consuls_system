@@ -1,0 +1,66 @@
+﻿@model CONSULS_SYSTEM.Models.TB_Menu_Information
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TB_Menu_Information</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Action)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Action)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Controller)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Controller)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Sorting)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Sorting)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ChildOfMenu)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ChildOfMenu)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Active)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Active)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Createby)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Createby)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreateDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreateDate)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Menu_ID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

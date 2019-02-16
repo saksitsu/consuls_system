@@ -1,0 +1,92 @@
+﻿@{
+    Layout = "_Layout_member";
+    ViewData["Title"] = "Home Page";
+    var model_Home = (CONSULS_SYSTEM.Models.MT_Home)@ViewBag.Home;
+
+}
+
+<style type="text/css">
+    .intro-heading {
+        color: #444444;
+        text-shadow: 1px 0px 1px #CCCCCC, 0px 1px 1px #EEEEEE, 2px 1px 1px #CCCCCC, 1px 2px 1px #EEEEEE, 3px 2px 1px #CCCCCC, 2px 3px 1px #EEEEEE, 4px 3px 1px #CCCCCC, 3px 4px 1px #EEEEEE, 5px 4px 1px #CCCCCC, 4px 5px 1px #EEEEEE, 6px 5px 1px #CCCCCC, 5px 6px 1px #EEEEEE, 7px 6px 1px #CCCCCC;
+        color: #000000;
+        font-size: 36px !important;
+    }
+
+    header {
+        background-image: url('@Url.Content(model_Home!=null? model_Home.Img_Url: "https://cdn-a.william-reed.com/var/wrbm_gb_food_pharma/storage/images/publications/food-beverage-nutrition/beveragedaily.com/article/2018/09/28/digital-remains-untapped-by-drinks-firms/8597278-1-eng-GB/Digital-remains-untapped-by-drinks-firms_wrbm_large.jpg")');
+        /* background-repeat: no-repeat; */
+        /* background-attachment: scroll; */
+        /* background-position: center center; */
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        background-size: cover;
+        -o-background-size: cover;
+        text-align: center;
+        color: white;
+    }
+
+
+    .big-icon {
+    font-size: 100px;   
+}
+</style>
+<!--แก้ปัญหา Ajax ไม่ทำงาน ติดError ตัว $-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+    @*(function () {
+         $.ajax({
+            url: '@Url.Action("GET_Content", "Home")',
+            //data: { id: id }
+        }).done(function (results) {
+            $('#home_content').html("");
+            $('#home_content').append(results);
+        });
+    }());*@
+</script>
+
+
+<header>
+    <div class="container">
+        <div class="intro-text">
+            <div class="intro-heading">@(model_Home != null ? model_Home.Header : "")</div>
+            <a href="#Home" class="page-scroll"><i id="fa_down" class="fa fa-sort-down big-icon"></i></a>
+        </div>
+    </div>
+</header>
+
+<section id="Home">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h3 class="section-heading">@(model_Home != null ? model_Home.Header : "")</h3>
+                <h3 id="home_content" class="section-subheading text-muted" style="text-align:left">
+                    @Html.Raw(model_Home != null ? model_Home.Message : "")
+                </h3>
+                <h3 class="section-subheading text-muted" style="text-align:right">
+                    @(model_Home != null ? model_Home.Credit : "")<br />
+                    @(model_Home != null ? model_Home.Footer : "")
+                </h3>
+
+            </div>
+        </div>
+    </div>
+</section>
+<hr />
+
+<aside class="clients">
+    <div class="container">
+        <h3 class="section-heading">Our partner</h3>
+        <div class="row">
+            @foreach (CONSULS_SYSTEM.Models.MT_Partner item in ViewBag.Partner)
+            {
+                <div class="col-md-6 col-sm-6">
+                    <a href="@item.Link_Url" target="_blank">
+                        <img src="@Url.Content(item.Img_Url)" class="img-responsive img-centered" alt="">
+                    </a>
+                </div>
+            }
+
+        </div>
+    </div>
+</aside>

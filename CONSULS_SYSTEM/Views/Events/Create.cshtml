@@ -1,0 +1,119 @@
+﻿@model CONSULS_SYSTEM.Controllers.EventsController.Model
+
+@using CONSULS_SYSTEM.Resources
+@using Microsoft.AspNetCore.Http;
+
+@inject LocService SharedLocalizer
+@{
+    Layout = "_Layout_admin";
+    ViewData["Title"] = "Create";
+}
+<script type="text/javascript">
+    function level_onchange() {
+        var element = document.getElementById("level_4");
+        if ($('#ddl_level').val() == "4") {
+            element.classList.remove("hidden");
+        }
+        else {
+            element.classList.add("hidden");
+        }
+    }
+</script>
+
+<section class="content-header">
+    <h1>
+        Data
+        <small> management</small>
+    </h1>
+    <!--<ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Examples</a></li>
+        <li class="active">Blank page</li>
+    </ol>-->
+</section>
+<section class="content">
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title">@SharedLocalizer.GetLocalizedHtmlString("Create New") - @SharedLocalizer.GetLocalizedHtmlString("Events")</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                        title="Collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+            <form asp-action="Create" class="form-horizontal" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="box-body">
+                    <div class="col-md-offset-2 col-md-8">
+                        <div class="form-group">
+                            <label asp-for="TB_Events.Title" class="control-label"></label>
+                            <input asp-for="TB_Events.Title" class="form-control" />
+                            <span asp-validation-for="TB_Events.Title" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="TB_Events.Description" class="control-label"></label>
+                            <textarea asp-for="TB_Events.Description" rows="5" cols="40" class="form-control"></textarea>
+                            <span asp-validation-for="TB_Events.Description" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            @{
+                                <label asp-for="TB_Events.Type" class="control-label"></label>
+                                <select asp-for="TB_Events.Type" id="ddl_level" class="form-control" onchange="level_onchange()"
+                                        asp-items="@(new SelectList(Model.MT_Level, "Level_ID", "Name"))">
+                                    <option value=0>Please Select</option>
+                                </select>
+                                <span asp-validation-for="TB_Events.Type" class="text-danger"></span>
+                            }
+                        </div>
+                        <div id="level_4" class="form-group hidden">
+                            @{
+                                <label class="control-label"></label>
+                                <select asp-for="TB_Events.Country_ID" class="form-control"
+                                        asp-items="@(new SelectList(Model.MT_Country, "Country_ID", "Name"))">
+                                    <option value=0>Please Select</option>
+                                </select>
+                                <span asp-validation-for="TB_Events.Country_ID" class="text-danger"></span>
+                            }
+                        </div>
+                        <div class="form-group">
+                            <label>Upload Images</label>
+                            <div class="fileupload fileupload-new" data-provides="fileupload">
+                                <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;"><img src="~/layout_admin/Upload-Image/img/demoUpload.jpg" alt="" /></div>
+                                <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+                                <div>
+                                    <span class="btn btn-file btn-primary">
+                                        <span class="fileupload-new">Select image</span>
+                                        <span class="fileupload-exists">Change</span>
+                                        <input type="file" name="uploadfile" accept="image/*" />
+                                    </span>
+                                    <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">Remove</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="TB_Events.Active" class="control-label"></label>
+                            <input type="checkbox" name="TB_Events.Active" checked value=true data-toggle="toggle" data-onstyle="success" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">@SharedLocalizer.GetLocalizedHtmlString("Send notify")</label>
+                            <input type="checkbox" name="sendnotify" checked value=true data-toggle="toggle" data-onstyle="success" />
+                        </div>
+                        <div class="form-group" style="float:right">
+                            <a asp-action="Manage" class="btn btn-default"><i class="fa fa-mail-reply"></i> Back</a>
+                            <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-footer -->
+            </form>
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

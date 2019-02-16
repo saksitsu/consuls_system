@@ -1,0 +1,224 @@
+﻿@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Http.Features
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
+@using Microsoft.AspNetCore.Http.Extensions;
+@using CONSULS_SYSTEM.Resources
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@inject LocService SharedLocalizer
+@inject IViewLocalizer Localizer
+@inject IOptions<RequestLocalizationOptions> LocOptions
+@model IEnumerable<CONSULS_SYSTEM.Models.TB_News>
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout_member.cshtml";
+}
+
+<!-- Favicon  -->
+<link rel="icon" href="~/img/core-img/favicon.ico">
+
+<!-- Style CSS -->
+<link href="~/style.css" rel="stylesheet" />
+<link href="~/layout_admin/dist/css/AdminLTE.css" rel="stylesheet" />
+
+<style type="text/css">
+    .header-link {
+        color: black;
+        font-weight: bold;
+        font-family: 'Kanit', sans-serif;
+    }
+
+    .navbar-toggle {
+        position: relative;
+        float: right;
+        padding: 9px 10px;
+        margin-top: 8px;
+        margin-right: 15px;
+        margin-bottom: 8px;
+        background-color: transparent;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+
+    .navbar-custom {
+        background-color: black;
+    }
+
+    .navbar-custom {
+        background-color: black;
+    }
+
+    .box.box-warning {
+        border-top-color: #efd167;
+    }
+
+    .bg-yellow, .callout.callout-warning, .alert-warning, .label-warning, .modal-warning .modal-body {
+        background-color: #efd167 !important;
+    }
+
+    h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+        /*font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif !important;*/
+        font-family: 'Kanit', sans-serif;
+    }
+
+    .section-padding-100 {
+        padding: 120px 0 !important;
+    }
+
+    .body {
+        font-family: 'Kanit', sans-serif;
+    }
+</style>
+
+<div class="main-content-wrapper">
+    <div class="container">
+        <div class="row justify-content-center">
+            <!-- ============= Post Content Area Start ============= -->
+            <div class="col-12 col-lg-12">
+                <div class="col-lg-8">
+                    <div class="post-content-area mb-100">
+                        <!-- Catagory Area -->
+                        <div class="world-catagory-area">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="title">
+                                    <h1>@SharedLocalizer.GetLocalizedHtmlString("News") - Top5 update</h1>
+                                </li>
+                                @*<li class="nav-item">
+                                        <a class="nav-link active" id="tab1" data-toggle="tab" href="#world-tab-1" role="tab" aria-controls="world-tab-1" aria-selected="true">All</a>
+                                    </li>*@
+                            </ul>
+
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="world-tab-1" role="tabpanel" aria-labelledby="tab1">
+                                    @{
+                                        var top5 = Model.OrderByDescending(o => o.CreateDate).Take(5);
+                                        @foreach (var item in top5)
+                                        {
+                                            <div class="single-blog-post post-style-4 d-flex align-items-center">
+                                                <!-- Post Thumbnail -->
+                                                <div class="post-thumbnail">
+                                                    <a href="@Url.Content(item.Img_Url)" target="_blank" title="@item.Title">
+                                                        <img src="@(item.Img_Url != null && !item.Img_Url.Equals("") ?Url.Content(item.Img_Url):"/layout_admin/Upload-Image/img/demoUpload.jpg")" class="img-responsive img-centered img-card" alt="" style="width:200px;height:200px">
+                                                    </a>
+                                                </div>
+                                                <!-- Post Content -->
+                                                <div class="post-content">
+                                                    <a href="#" class="headline">
+                                                        <h5><a asp-action="Details" asp-controller="News" asp-route-id="@item.ID" class="header-link">@item.Title</a></h5>
+                                                    </a>
+                                                    <p>
+                                                        @{
+                                                            @if (item.Description.Length > 200)
+                                                            {
+                                                                @string.Format("{0}...", @item.Description.Substring(0, 200));
+                                                            }
+                                                            else
+                                                            {
+                                                                @item.Description
+                                                            }
+                                                        }
+                                                        <br /><br /><a asp-action="Details" asp-controller="News" asp-route-id="@item.ID" class="header-link">@SharedLocalizer.GetLocalizedHtmlString("Read more")</a>
+                                                    </p>
+                                                    <!-- Post Meta -->
+                                                    <div class="post-meta">
+                                                        <p><a href="#" class="post-author">@item.Createby</a> on <a href="#" class="post-date">@Convert.ToDateTime(item.CreateDate).ToString("MMM dd yyyy")</a></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <br />
+                    <div class="box box-warning direct-chat direct-chat-warning">
+                        <div class="box-header with-border bg-yellow">
+                            <h3 class="widget-user-username">@SharedLocalizer.GetLocalizedHtmlString("List all of") @SharedLocalizer.GetLocalizedHtmlString("News")</h3>
+                            <h5 class="widget-user-desc">@SharedLocalizer.GetLocalizedHtmlString("Order by date descending.")</h5>
+                        </div>
+                        <div class="box-body">
+                            <div class="direct-chat-messages" style="min-height:500px;">
+                                <div class="direct-chat-msg">
+                                    <div class="box-footer no-padding">
+                                        <ul class="nav nav-stacked">
+                                            @*<table id="example" class="stripe row-border order-column" style="border:1px solid black;width:100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Test data</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var item in Model.Skip(5))
+                                                        {
+                                                            <li>
+                                                                    <a asp-action="Details" asp-controller="News" asp-route-id="@item.ID">
+                                                                        @item.Title
+                                                                        <br />
+                                                                        <span class="text-warning" style="font-size:12px;">@item.Createby on @Convert.ToDateTime(item.CreateDate).ToString("MMM dd yyyy")</span>
+                                                                        <span class="pull-right"><i class="fa fa-eye"></i></span>
+                                                                    </a>
+                                                                </li>
+                                                        }
+                                                    </tbody>
+                                                </table>*@
+
+                                            @foreach (var item in Model.Skip(5))
+                                            {
+                                                <li>
+                                                    <a asp-action="Details" asp-controller="News" asp-route-id="@item.ID">
+                                                        @item.Title
+                                                        <br />
+                                                        <span class="text-warning" style="font-size:12px;">@item.Createby on @Convert.ToDateTime(item.CreateDate).ToString("MMM dd yyyy")</span>
+                                                        <span class="pull-right"><i class="fa fa-eye"></i></span>
+                                                    </a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+            scrollY: "450px",
+            scrollX: true,
+            scrollCollapse: true,
+            paging: false,
+            searching: true,
+            info: false,
+            fixedColumns: {
+                leftColumns: 1,
+                rightColumns: 1
+            }
+        });
+    });
+</script>
+
+
+<!-- jQuery (Necessary for All JavaScript Plugins) -->
+<script src="~/js/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="~/js/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="~/js/bootstrap.min.js"></script>
+<!-- Plugins js -->
+<script src="~/js/plugins.js"></script>
+<!-- Active js -->
+<script src="~/js/active.js"></script>

@@ -1,0 +1,190 @@
+﻿@model CONSULS_SYSTEM.Controllers.WebboardController.Model
+@using CONSULS_SYSTEM.Resources
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+
+@inject LocService SharedLocalizer
+@using System;
+@using System.Collections.Generic;
+@using System.Linq;
+@using System.Threading.Tasks;
+@using Microsoft.AspNetCore.Mvc;
+@using Microsoft.AspNetCore.Mvc.Rendering;
+@using Microsoft.EntityFrameworkCore;
+@using CONSULS_SYSTEM.DATA;
+@using CONSULS_SYSTEM.Models;
+@using System.Net.Http.Headers;
+@using System.IO;
+@using Microsoft.AspNetCore.Hosting;
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout_member.cshtml";
+    //if (ViewData["IsAdmin"] != null)
+    //{
+    //    if (ViewData["IsAdmin"].ToString() == "true")
+    //    {
+    //        Layout = "~/Views/Shared/_Layout_admin.cshtml";
+    //    }
+    //    else
+    //    {
+    //        Layout = "~/Views/Shared/_Layout_member.cshtml";
+    //    }
+    //}
+    //else
+    //{
+    //    Layout = "~/Views/Shared/_Layout_admin.cshtml";
+    //}
+
+    string session_user = Context.Session.GetString("session_user");
+    var list_user = JsonConvert.DeserializeObject<TB_Member>(session_user);
+}
+
+<!-- Favicon  -->
+<link rel="icon" href="~/img/core-img/favicon.ico">
+<!-- Style CSS -->
+<link href="~/style.css" rel="stylesheet" />
+<link href="~/layout_admin/dist/css/AdminLTE.css" rel="stylesheet" />
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<style type="text/css">
+    /*.header-link {
+            color: black;
+            font-weight: bold
+        }*/
+
+    /*section {
+        margin-top: 6%;
+    }*/
+
+    .navbar-custom {
+        background-color: black; /*transparent;*/
+        /*padding: 25px 0;
+        -webkit-transition: padding 0.3s;
+        -moz-transition: padding 0.3s;
+        transition: padding 0.3s;
+        border: none;*/
+    }
+
+    .navbar-toggle {
+        position: relative;
+        float: right;
+        padding: 9px 10px;
+        margin-top: 8px;
+        margin-right: 15px;
+        margin-bottom: 8px;
+        background-color: transparent;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+</style>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var input = document.getElementById("tbx_comment");
+        input.addEventListener("keyup", function (event) {
+            event.preventDefault();
+            if (event.keyCode === 13) {
+                document.getElementById("myBtn").click();
+            }
+        });
+    });
+
+    async function Comment(Wb_id) {
+      var text = $('#tbx_comment').val();
+      await $.ajax({
+                url: '@Url.Action("Comment", "Webboard")',
+                data: { Wb_id : Wb_id  , text: text },
+                type: "POST",
+                dataType: "html",
+                success: function (result) {
+                    window.location.href = '@Url.Action("Details", "Webboard", new {id = "ID"})'.replace("ID", Wb_id);
+                }
+            });
+    }
+
+    function Edit_Comment(Wb_id, Cmt_id) {
+        var element = $('#' + Cmt_id);
+        if (element.is(':hidden')) {
+            element.removeClass("hidden");
+
+            var input = document.getElementById(Cmt_id);
+            input.addEventListener("keyup", async function (event) {
+                event.preventDefault();
+                if (event.keyCode === 13) {
+
+                    await $.ajax({
+                        url: '@Url.Action("EditComment", "Webboard")',
+                        data: { Wb_id: Wb_id, id: Cmt_id.replace("tbx_", "") , text: element.val() },
+                        type: "POST",
+                        dataType: "html",
+                        success: function (result) {
+                            window.location.href = '@Url.Action("Details", "Webboard", new {id = "ID"})'.replace("ID", Wb_id);
+                        }
+                    });
+
+                }
+            });
+        }
+        else {
+            element.addClass("hidden");
+            element.removeEventListener("keyup", function (event) {});
+        }
+    }
+
+
+
+    function Delete(Wb_id, id) {
+
+        swal({
+            title: "Are you sure?",
+            text: "You want to delete this topic?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Yes, I am sure!',
+            cancelButtonText: "No, cancel it!"
+        }, async function () {
+            await $.ajax({
+                url: '@Url.Action("DeleteComment", "Webboard")',
+                data: { Wb_id : Wb_id , id: id },
+                type: "POST",
+                dataType: "html",
+                success: function (result) {
+                    window.location.href = '@Url.Action("Details", "Webboard", new {id = "ID"})'.replace("ID", Wb_id);
+                }
+            });
+        },
+            function () { return false; });
+    }
+</script>
+
+<section id="Webboard">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="box box-widget">
+                    <div class="box-header with-border">
+                        <div class="user-block">
+                            <img class="img-circle" src="@Url.Content(Model.TB_Webboard.image_user!=null?Model.TB_Webboard.image_user:"~/img/logo.jpg")" alt="User Image">
+                            <span class="username"><a href="#">@Model.TB_Webboard.name_user</a></span>
+                            <span class="description">@Convert.ToDateTime(Model.TB_Webboard.CreateDate).ToString("MMM dd yyyy")</span>
+                        </div>
+
+                        <div class="box-tools">
+                            <br />
+                            <h5><a asp-action="Index" class="btn btn-box-tool"><i class="fa fa-angle-left" style="font-size:15px;"> @SharedLocalizer.GetLocalizedHtmlString("Back")</i></a></h5>
+                        </div>
+
+                    </div>
+                    @await Html.PartialAsync("_Form_Details")
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

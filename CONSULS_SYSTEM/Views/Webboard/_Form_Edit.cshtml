@@ -1,0 +1,49 @@
+﻿@model CONSULS_SYSTEM.Models.TB_Webboard
+
+<div class="form-group">
+    <label asp-for="Title" class="control-label"></label>
+    <textarea asp-for="Title" rows="2" cols="40" class="form-control"></textarea>
+    <span asp-validation-for="Title" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Description" class="control-label"></label>
+    <textarea asp-for="Description" rows="5" cols="40" class="form-control"></textarea>
+    <span asp-validation-for="Description" class="text-danger"></span>
+</div>
+@*<div class="form-group">
+    <label asp-for="Other" class="control-label"></label>
+    <textarea asp-for="Other" id="editor" rows="5" cols="40" class="form-control"></textarea>
+    <span asp-validation-for="Other" class="text-danger"></span>
+</div>*@
+<div class="form-group">
+    @{
+        <label asp-for="Active" class="control-label"></label>
+        <input type="checkbox" name="Active" @(Model.Active == true ? "checked" : "") value=true data-toggle="toggle" data-onstyle="success" />
+        @*<select asp-for="Active" class="form-control">
+            <option>Please select one</option>
+            <option>True</option>
+            <option>False</option>
+        </select>*@
+        <span asp-validation-for="Active" class="text-danger"></span>
+    }
+</div>
+<input asp-for="Createby" class="form-control hidden">
+<input asp-for="CreateDate" type="hidden" />
+<input asp-for="ID" class="form-control hidden">
+<input asp-for="Img_Gallary_ID" class="form-control hidden">
+<input asp-for="Img_Url" class="form-control hidden">
+<div class="form-group">
+    <label>Upload Images</label>
+    <div class="fileupload fileupload-new" data-provides="fileupload">
+        <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;"><img src="@Url.Content(Model.Img_Url)" alt="" /></div>
+        <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+        <div>
+            <span class="btn btn-file btn-primary">
+                <span class="fileupload-new">Select image</span>
+                <span class="fileupload-exists">Change</span>
+                <input type="file" name="uploadfileEdit" accept="image/*" />
+            </span>
+            <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">Remove</a>
+        </div>
+    </div>
+</div>

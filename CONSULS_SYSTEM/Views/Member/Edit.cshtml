@@ -1,0 +1,255 @@
+﻿@model CONSULS_SYSTEM.Models.TB_Member
+@using CONSULS_SYSTEM.Resources
+@using Microsoft.AspNetCore.Http;
+
+@inject LocService SharedLocalizer
+@{
+    Layout = "_Layout_admin";
+    ViewData["Title"] = "Edit";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var element = document.getElementById("div_country");
+        if ($('#ddl_level').val() != "2") {
+            element.classList.remove("hidden");
+        }
+        else {
+            element.classList.add("hidden");
+        }
+    });
+    function level_onchange() {
+        var element = document.getElementById("div_country");
+        if ($('#ddl_level').val() != "2") {
+            element.classList.remove("hidden");
+        }
+        else {
+            element.classList.add("hidden");
+        }
+    }
+</script>
+<section class="content-header">
+    <h1>
+        Data
+        <small> management</small>
+    </h1>
+    <!--<ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Examples</a></li>
+        <li class="active">Blank page</li>
+    </ol>-->
+</section>
+
+<section class="content">
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title">@SharedLocalizer.GetLocalizedHtmlString("Edit") - @SharedLocalizer.GetLocalizedHtmlString("Member")</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                        title="Collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+            <form asp-action="Edit" class="form-horizontal">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input asp-for="ID" value="@Model.ID" type="hidden" />
+                <input asp-for="Line_Token" type="hidden" />
+                <input asp-for="Img_Url" type="hidden" />
+                <input asp-for="Password" type="hidden" />
+                <input asp-for="Createby" type="hidden" />
+                <input asp-for="CreateDate" type="hidden" />
+                <div class="box-body">
+                    <div class="col-md-offset-2 col-md-8">
+                        <div class="form-group">
+                            <label asp-for="User_ID" class="control-label"></label>
+                            <input asp-for="User_ID" readonly class="form-control" />
+                            <span asp-validation-for="User_ID" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Name" class="control-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Sub_Name" class="control-label"></label>
+                            <input asp-for="Sub_Name" class="form-control" />
+                            <span asp-validation-for="Sub_Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Email" class="control-label"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Phone_Number" class="control-label"></label>
+                            <input asp-for="Phone_Number" class="form-control" />
+                            <span asp-validation-for="Phone_Number" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Position" class="control-label"></label>
+                            <input asp-for="Position" class="form-control" />
+                            <span asp-validation-for="Position" class="text-danger"></span>
+                        </div>
+                        @*<div class="form-group">
+                            <label asp-for="Education" class="control-label"></label>
+                            <input asp-for="Education" class="form-control" />
+                            <span asp-validation-for="Education" class="text-danger"></span>
+                        </div>*@
+                        <div class="form-group">
+                            <label asp-for="Level_ID" class="control-label"></label>
+                            <select asp-for="Level_ID" id="ddl_level" onchange="level_onchange()" class="form-control" asp-items="@ViewBag.ddlLevel"></select>
+                            <span asp-validation-for="Level_ID" class="text-danger"></span>
+                        </div>
+                        <div id="div_country" class="form-group">
+                            <label asp-for="Country_ID" class="control-label"></label>
+                            <select asp-for="Country_ID" class="form-control" asp-items="@ViewBag.ddlCountry">
+                                <option value=0>Please select</option>
+                            </select>
+                            <span asp-validation-for="Country_ID" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Address" class="control-label"></label>
+                            <textarea asp-for="Address" class="form-control"></textarea>
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Active" class="control-label"></label>
+                            <input type="checkbox" @(Model.Active==true?"checked":"") name="Active" value=true data-toggle="toggle" data-onstyle="success" />
+                            <span asp-validation-for="Active" class="text-danger"></span>
+                        </div>
+                        <div class="form-group" style="float:right">
+                            <a asp-action="Manage" class="btn btn-default"><i class="fa fa-mail-reply"></i> Back</a>
+                            <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-footer -->
+            </form>
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+</section>
+
+
+
+@*<section class="content">
+        <div class="col-lg-12">
+            <div class="col-lg-6">
+
+            </div>
+        </div>
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title"> Create</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                            title="Collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Member data</h3>
+                    </div>
+                    <form asp-action="Create" class="form-horizontal">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label asp-for="User_ID" class="col-sm-4  control-label"></label>
+                                <div class="col-sm-5">
+                                    <input asp-for="User_ID" class="form-control" />
+                                    <span asp-validation-for="User_ID" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Password" class="col-sm-4  control-label"></label>
+                                <div class="col-sm-5">
+                                    <input asp-for="Password" type="password" class="form-control" />
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Name" class="col-sm-4 control-label"></label>
+                                <div class="col-sm-5">
+                                    <input asp-for="Name" class="form-control" />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Sub_Name" class="col-sm-4 control-label"></label>
+                                <div class="col-sm-5">
+                                    <input asp-for="Sub_Name" class="form-control" />
+                                    <span asp-validation-for="Sub_Name" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Country_ID" class="col-sm-4 control-label"></label>
+                                <div class="col-sm-5">
+                                    <select asp-for="Country_ID" class="form-control select2" asp-items="@ViewBag.ddlCountry"></select>
+                                    <span asp-validation-for="Country_ID" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Position" class="col-sm-4 control-label"></label>
+                                <div class="col-sm-5">
+                                    <input asp-for="Position" class="form-control" />
+                                    <span asp-validation-for="Position" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Address" class="col-sm-4 control-label"></label>
+                                <div class="col-sm-5">
+                                    <textarea asp-for="Address" class="form-control"></textarea>
+                                    <span asp-validation-for="Address" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Education" class="col-sm-4 control-label"></label>
+                                <div class="col-sm-5">
+                                    <input asp-for="Education" class="form-control" />
+                                    <span asp-validation-for="Education" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Level_ID" class="col-sm-4 control-label"></label>
+                                <div class="col-sm-5">
+                                    <select asp-for="Level_ID" class="form-control select2" asp-items="@ViewBag.ddlLevel"></select>
+                                    <span asp-validation-for="Level_ID" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Active" class="col-sm-4 control-label"></label>
+                                <div class="col-sm-5">
+                                    <input type="checkbox" checked name="Active" value=true data-toggle="toggle" data-onstyle="success" />
+                                    <span asp-validation-for="Active" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-footer" style="text-align:center">
+                            <a asp-action="Manage" class="btn btn-default"><i class="fa fa-mail-reply"></i> Back</a>
+                            <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>*@
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,58 @@
+﻿@model CONSULS_SYSTEM.Models.TB_Meeting
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout_member.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>TB_Meeting</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Meeting_ID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Meeting_ID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Meeting_Title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Meeting_Title)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Meeting_Date)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Meeting_Date)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Active)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Active)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Createby)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Createby)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreateDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreateDate)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="ID" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

@@ -1,0 +1,184 @@
+﻿@model CONSULS_SYSTEM.Models.TB_Member
+@using CONSULS_SYSTEM.Resources
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+
+@inject LocService SharedLocalizer
+@{
+    Layout = "_Layout_member";
+    ViewData["Title"] = "Profile";
+}
+<style type="text/css">
+    .navbar-custom {
+        background-color: black; /*transparent;*/
+        /*padding: 25px 0;
+        -webkit-transition: padding 0.3s;
+        -moz-transition: padding 0.3s;
+        transition: padding 0.3s;
+        border: none;*/
+    }
+</style>
+
+<section id="Profile" class="bg-light-gray">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3"></div>
+            <form asp-action="Profile" asp-controller="Home" method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="ID" class="form-control">
+                <input type="hidden" asp-for="Password" class="form-control">
+                <input type="hidden" asp-for="Line_Token" class="form-control">
+                <input type="hidden" asp-for="Level_ID" class="form-control">
+                <input type="hidden" asp-for="Img_Url" class="form-control">
+                <input type="hidden" asp-for="Active" class="form-control">
+                <input type="hidden" asp-for="Createby" class="form-control">
+                <input type="hidden" asp-for="CreateDate" class="form-control">
+                <div class="col-md-6" style="border:3px solid #ffd800;border-radius:10px; padding:10px;background-color:white;">
+                    <!--1-->
+                    <div class="col-lg-12" style="text-align:center">
+                        <h3>@SharedLocalizer.GetLocalizedHtmlString("My profile")</h3>
+                    </div>
+                    <!--2-->
+                    <div class="col-lg-12" style="text-align:center">
+                        <input type="hidden" />
+                        <div class="form-group">
+                            <div class="fileupload fileupload-new" data-provides="fileupload">
+                                <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+                                    <img src="@(Model.Img_Url!=null && !Model.Img_Url.Equals("") ? Url.Content(Model.Img_Url):"/layout_admin/Upload-Image/img/demoUpload.jpg")" alt="" />
+                                </div>
+                                <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+                                <div>
+                                    <span class="btn btn-file btn-info">
+                                        <span class="fileupload-new">Select image</span>
+                                        <span class="fileupload-exists">Change</span>
+                                        <input type="file" name="uploadfile" accept="image/*" />
+                                    </span>
+                                    <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">Remove</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--3-->
+                    <div class="col-lg-4">
+                        <label>@SharedLocalizer.GetLocalizedHtmlString("Your account")</label>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="form-group">
+                            <input asp-for="User_ID" class="form-control" readonly>
+                            <span asp-validation-for="User_ID" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <!--4-->
+                    <div class="col-lg-4">
+                        <label>@SharedLocalizer.GetLocalizedHtmlString("Change new password")</label>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="form-group">
+                            <input type="password" name="ChangePassword" placeholder="@SharedLocalizer.GetLocalizedHtmlString("Change new password")" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <!--5-->
+                    <div class="col-lg-4">
+                        <label>@SharedLocalizer.GetLocalizedHtmlString("Confirm password")</label>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="form-group">
+                            <input type="password" name="ConfirmPassword" placeholder="@SharedLocalizer.GetLocalizedHtmlString("Confirm password")" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <!--6-->
+                    <div class="col-lg-4">
+                        <label>@SharedLocalizer.GetLocalizedHtmlString("First name")</label>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="form-group">
+                            <input asp-for="Name" class="form-control" placeholder="@SharedLocalizer.GetLocalizedHtmlString("First name")">
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <!--7-->
+                    <div class="col-lg-4">
+                        <label>@SharedLocalizer.GetLocalizedHtmlString("Last name")</label>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="form-group">
+                            <input asp-for="Sub_Name" class="form-control" placeholder="@SharedLocalizer.GetLocalizedHtmlString("Last name")">
+                            <span asp-validation-for="Sub_Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <!--8-->
+                    <div class="col-lg-4">
+                        <label>@SharedLocalizer.GetLocalizedHtmlString("Email")</label>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="form-group">
+                            <input type="email" asp-for="Email" class="form-control" placeholder="@SharedLocalizer.GetLocalizedHtmlString("Email")">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <!--9-->
+                    <div class="col-lg-4">
+                        <label>@SharedLocalizer.GetLocalizedHtmlString("Tel.")</label>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="form-group">
+                            <input type="tel" asp-for="Phone_Number" class="form-control" placeholder="@SharedLocalizer.GetLocalizedHtmlString("Tel.")">
+                            <span asp-validation-for="Phone_Number" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <!--10-->
+                    @*<div class="col-lg-4">
+                    <label>@SharedLocalizer.GetLocalizedHtmlString("Education")</label>
+                </div>*@
+                    @*<div class="col-lg-8">
+                    <div class="form-group">
+                        <input asp-for="Education" class="form-control" placeholder="@SharedLocalizer.GetLocalizedHtmlString("Education")">
+                        <span asp-validation-for="Education" class="text-danger"></span>
+                    </div>
+                </div>*@
+
+                    <!--11-->
+                    <div class="col-lg-4">
+                        <label>@SharedLocalizer.GetLocalizedHtmlString("Country")</label>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="form-group">
+                            <select asp-for="Country_ID" class="form-control" asp-items="@ViewBag.ddlCountry"></select>
+                            <span asp-validation-for="Country_ID" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <!--12-->
+                    <div class="col-lg-4">
+                        <label>@SharedLocalizer.GetLocalizedHtmlString("Address")</label>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="form-group">
+                            <textarea asp-for="Address" class="form-control" placeholder="@SharedLocalizer.GetLocalizedHtmlString("Address")"></textarea>
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <!--13-->
+                    <div class="col-lg-12" style="text-align:center">
+                        <div class="form-group">
+                            <img src="@ViewData["param_qr"]" width="200" height="200" />
+                            <br /><label style="color:red;">@SharedLocalizer.GetLocalizedHtmlString("Register for receive Line notifications*")</label>
+                        </div>
+                    </div>
+                    <!--14-->
+                    <div class="form-group">
+                        <div class="col-lg-6" style="padding:1px;">
+                            <button type="submit" class="btn btn-danger btn-block btn-flat btn-xl" style="background-color:#0094ff">
+                                <i class="fa fa-save"></i> @SharedLocalizer.GetLocalizedHtmlString("Save")
+                            </button>
+                        </div>
+                        <div class="col-lg-6" style="padding:1px;">
+                            <a asp-action="Logout" asp-controller="Login" style="background-color:red" class="btn btn-success btn-block btn-flat btn-xl"><i class="fa fa-sign-out"></i> @SharedLocalizer.GetLocalizedHtmlString("Sign out")</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="col-lg-3"></div>
+        </div>
+    </div>
+</section>

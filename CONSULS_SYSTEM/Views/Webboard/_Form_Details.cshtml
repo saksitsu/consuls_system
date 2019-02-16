@@ -1,0 +1,103 @@
+﻿@model CONSULS_SYSTEM.Controllers.WebboardController.Model
+@using CONSULS_SYSTEM.Resources
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+
+@inject LocService SharedLocalizer
+@using System;
+@using System.Collections.Generic;
+@using System.Linq;
+@using System.Threading.Tasks;
+@using Microsoft.AspNetCore.Mvc;
+@using Microsoft.AspNetCore.Mvc.Rendering;
+@using Microsoft.EntityFrameworkCore;
+@using CONSULS_SYSTEM.DATA;
+@using CONSULS_SYSTEM.Models;
+@using System.Net.Http.Headers;
+@using System.IO;
+@using Microsoft.AspNetCore.Hosting;
+@{
+    string session_user = Context.Session.GetString("session_user");
+    var list_user = JsonConvert.DeserializeObject<TB_Member>(session_user);
+}
+
+<style type="text/css">
+
+    .span-createby {
+        font-size: 14px !important;
+    }
+
+    .span-awswer {
+        font-size: 12px !important;
+    }
+</style>
+
+<div class="box-body text-center">
+    @if (Model.TB_Webboard.Img_Url == null)
+    {
+        <img src="~/layout_admin/Upload-Image/img/demoUpload.jpg" alt="">
+    }
+    else
+    {
+        <img src="@Url.Content(Model.TB_Webboard.Img_Url)">
+    }
+</div>
+
+<div class="box-body">
+    <p>@Model.TB_Webboard.Description</p>
+    <span class="pull-right text-muted">@Model.TB_Comment.Count Comments</span>
+</div>
+
+<div class="box-footer box-comments">
+    @{
+        for (int i = 0; i < Model.TB_Comment.Count; i++)
+        {
+            <div class="box-comment">
+                <img class="img-circle img-sm" src="@Url.Content(Model.TB_Comment[i].image_user!=null?Model.TB_Comment[i].image_user:"~/img/logo.jpg")" alt="User Image">
+                <div class="comment-text">
+                    <span class="username">
+                        <span class="span-createby">@Model.TB_Comment[i].name_user</span>
+                        <span class="text-muted pull-right">@Convert.ToDateTime(@Model.TB_Comment[i].CreateDate).ToString("MMM dd yyyy HH:mm:ss")</span>
+                        @{
+                            if (Model.IsAdmin)
+                            {
+                                if (Model.UserID == Model.TB_Comment[i].name_user)
+                                {
+                                    <a onclick="Edit_Comment('@Model.TB_Webboard.ID','tbx_@Model.TB_Comment[i].ID')" class="btn btn-box-tool delete-icon"><i class="fa fa-pencil"></i></a>
+                                }
+                                <a onclick="Delete('@Model.TB_Webboard.ID','@Model.TB_Comment[i].ID')" class="btn btn-box-tool delete-icon"><i class="fa fa-times"></i></a>
+                            }
+                            else
+                            {
+                                if (Model.UserID == Model.TB_Comment[i].Createby)
+                                {
+                                    <a onclick="Edit_Comment('@Model.TB_Webboard.ID','tbx_@Model.TB_Comment[i].ID')" class="btn btn-box-tool delete-icon"><i class="fa fa-pencil"></i></a>
+                                    <a onclick="Delete('@Model.TB_Webboard.ID','@Model.TB_Comment[i].ID')" class="btn btn-box-tool delete-icon"><i class="fa fa-times"></i></a>
+                                }
+                            }
+                        }
+                    </span>
+                    <label asp-for="TB_Comment[i].Comment" class="control-label  span-awswer">@Model.TB_Comment[i].Comment</label>
+                    <input type="text" id="tbx_@Model.TB_Comment[i].ID" asp-for="New_Comment" class="form-control input-sm hidden span-awswer">
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<div class="box-footer">
+    <input type="hidden" asp-for="TB_Webboard.ID" />
+    <input type="hidden" asp-for="TB_Webboard.Img_Url" />
+    <input type="hidden" asp-for="TB_Webboard.Other" />
+    <input type="hidden" asp-for="TB_Webboard.Title" />
+    <input type="hidden" asp-for="TB_Webboard.Active" />
+    <input type="hidden" asp-for="TB_Webboard.Description" />
+    <input type="hidden" asp-for="TB_Webboard.Createby" />
+    <input type="hidden" asp-for="TB_Webboard.CreateDate" />
+    <input type="hidden" asp-for="TB_Webboard.Img_Gallary_ID" />
+    <img class="img-responsive img-circle img-sm" src="@Url.Content(list_user.Img_Url!=null?list_user.Img_Url:"~/img/logo.jpg")" alt="Alt Text">
+    <div class="img-push">
+        <input type="text" id="tbx_comment" asp-for="New_Comment" class="form-control input-sm span-awswer" placeholder="Press enter to post comment">
+        <button class="hidden" id="myBtn" onclick="Comment('@Model.TB_Webboard.ID','@Model.New_Comment')">Button</button>
+    </div>
+</div>

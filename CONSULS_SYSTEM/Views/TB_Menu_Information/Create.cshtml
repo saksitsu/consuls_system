@@ -1,0 +1,71 @@
+﻿@model CONSULS_SYSTEM.Models.TB_Menu_Information
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_Layout_admin";
+}
+
+<h2>Create</h2>
+
+<h4>TB_Menu_Information</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Menu_ID" class="control-label"></label>
+                <input asp-for="Menu_ID" class="form-control" />
+                <span asp-validation-for="Menu_ID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Action" class="control-label"></label>
+                <input asp-for="Action" class="form-control" />
+                <span asp-validation-for="Action" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Controller" class="control-label"></label>
+                <input asp-for="Controller" class="form-control" />
+                <span asp-validation-for="Controller" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sorting" class="control-label"></label>
+                <input asp-for="Sorting" class="form-control" />
+                <span asp-validation-for="Sorting" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ChildOfMenu" class="control-label"></label>
+                <input asp-for="ChildOfMenu" class="form-control" />
+                <span asp-validation-for="ChildOfMenu" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Active" class="control-label"></label>
+                <input asp-for="Active" class="form-control" />
+                <span asp-validation-for="Active" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Createby" class="control-label"></label>
+                <input asp-for="Createby" class="form-control" />
+                <span asp-validation-for="Createby" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreateDate" class="control-label"></label>
+                <input asp-for="CreateDate" class="form-control" />
+                <span asp-validation-for="CreateDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

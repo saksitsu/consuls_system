@@ -1,0 +1,130 @@
+@using CONSULS_SYSTEM.Resources
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+
+@inject LocService SharedLocalizer
+@{
+    var Json_menu = Context.Session.GetString("session_menu");
+
+    var List_Menu = new List<CONSULS_SYSTEM.Models.TB_Menu_Authorize>();
+    if (Json_menu != null)
+    {
+        List_Menu = JsonConvert.DeserializeObject<List<CONSULS_SYSTEM.Models.TB_Menu_Authorize>>(Json_menu);
+    }
+
+    var Group_Menu = List_Menu.Where(x => x.menu_info.ChildOfMenu == "" || x.menu_info.ChildOfMenu == null).ToList();
+}
+
+<ul class="sidebar-menu" data-widget="tree" id="menu" style="display:none">
+    <li class="header">MAIN MENU</li>
+    @foreach (var item in Group_Menu)
+    {
+        string group = item.menu_info.Menu_ID;
+        var sub_menu = List_Menu.Where(x => x.menu_info.ChildOfMenu == group).ToList();
+
+        @if (sub_menu.Count > 0)
+        {
+            <li class="treeview">
+                <a asp-controller="@item.menu_info.Controller" asp-action="@item.menu_info.Action">
+                    <i class="@item.menu_info.Icon"></i> <span>@SharedLocalizer.GetLocalizedHtmlString(item.menu_info.Name)</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+
+                    @foreach (var sub_item in sub_menu)
+                    {
+                        string sub_group = sub_item.menu_info.Menu_ID;
+                        var sub_sub_menu = List_Menu.Where(x => x.menu_info.ChildOfMenu == sub_group).ToList();
+                        @if (sub_sub_menu.Count > 0)
+                        {
+                            <li class="treeview">
+                                <a asp-controller="@sub_item.menu_info.Controller" asp-action="@item.menu_info.Action">
+                                    <i class="fa fa-circle-o"></i> @SharedLocalizer.GetLocalizedHtmlString(sub_item.menu_info.Name)
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    @foreach (var sub_sub_item in sub_sub_menu)
+                                    {
+                                        <li>
+                                            <a asp-controller="@sub_sub_item.menu_info.Controller" asp-action="@sub_sub_item.menu_info.Action">
+                                                <i class="fa fa-circle-o"></i>
+                                                <span style="font-size:11px;">@SharedLocalizer.GetLocalizedHtmlString(sub_sub_item.menu_info.Name)</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li><a asp-controller="@sub_item.menu_info.Controller" asp-action="@sub_item.menu_info.Action"><i class="fa fa-circle-o"></i> @SharedLocalizer.GetLocalizedHtmlString(sub_item.menu_info.Name)<span class="@sub_item.menu_info.Icon"></span></a></li>
+                        }
+                    }
+                </ul>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a asp-controller="@item.menu_info.Controller" asp-action="@item.menu_info.Action"><i class="@item.menu_info.Icon"></i> <span class="nav-label">@SharedLocalizer.GetLocalizedHtmlString(item.menu_info.Name)</span></a>
+            </li>
+        }
+    }
+
+</ul>
+<script>
+    (function () {
+            ContinueToRedirect();
+        }());
+
+        function ContinueToRedirect() {
+            setTimeout(function () {
+                var menu = document.getElementById("menu");
+                menu.style.display = "";
+            }, 1000);
+        }
+</script>
+@*<ul class="sidebar-menu" data-widget="tree">
+    <li class="header">MAIN MENU</li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-fw fa-cogs"></i> <span>Master data</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="demo-form-details.html"><i class="fa fa-circle-o"></i> Countries</a></li>
+            <li><a asp-controller="Member" asp-action="Manage"><i class="fa fa-circle-o"></i> @SharedLocalizer.GetLocalizedHtmlString("Member")</a></li>
+        </ul>
+    </li>
+    <li>
+        <a href="demo-form-details.html">
+            <i class="fa fa-fw fa-columns"></i> <span>Content management</span>
+        </a>
+    </li>
+    <li>
+        <a href="demo-form-details.html">
+            <i class="fa fa-fw fa-group"></i> <span>Events management</span>
+        </a>
+    </li>
+    <li>
+        <a href="demo-form-details.html">
+            <i class="fa fa-fw fa-newspaper-o"></i> <span>News management</span>
+        </a>
+    </li>
+    <li>
+        <a href="demo-form-details.html">
+            <i class="fa fa-balance-scale"></i> <span>Privilege management</span>
+        </a>
+    </li>
+    <li>
+        <a href="Webboard.html">
+            <i class="fa fa-fw fa-comments"></i> <span>Webboard</span>
+        </a>
+    </li>
+</ul>*@

@@ -1,0 +1,483 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Delete" xml:space="preserve">
+    <value>ลบ</value>
+  </data>
+  <data name="Member" xml:space="preserve">
+    <value>สมาชิก</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>ชื่อ</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>รหัสผ่าน</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>บันทึก</value>
+  </data>
+  <data name="Sub_Name" xml:space="preserve">
+    <value>นามสกุล</value>
+  </data>
+  <data name="This field is required" xml:space="preserve">
+    <value>*ต้องระบุข้อมูลนี้</value>
+  </data>
+  <data name="User ID already exists" xml:space="preserve">
+    <value>รหัสผู้ใช้นี้มีซ้ำอยู่ในระบบ</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>ชื่อผู้ใช้</value>
+  </data>
+  <data name="User_ID" xml:space="preserve">
+    <value>รหัสผู้ใช้</value>
+  </data>
+  <data name="Username or Passowrd is invalid." xml:space="preserve">
+    <value>ชื่อผู้ใช้ หรือ รหัสผ่าน ไม่ถูกต้อง</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>หน้าหลัก</value>
+  </data>
+  <data name="News" xml:space="preserve">
+    <value>ข่าวสาร</value>
+  </data>
+  <data name="About us" xml:space="preserve">
+    <value>เกี่ยวกับเรา</value>
+  </data>
+  <data name="Contact" xml:space="preserve">
+    <value>ติดต่อเรา</value>
+  </data>
+  <data name="Countries" xml:space="preserve">
+    <value>ประเทศสมาชิก</value>
+  </data>
+  <data name="Minutes" xml:space="preserve">
+    <value>รายงานการประชุม</value>
+  </data>
+  <data name="Privilege" xml:space="preserve">
+    <value>สิทธิประโยชน์</value>
+  </data>
+  <data name="Sign in" xml:space="preserve">
+    <value>เข้าสู่ระบบ</value>
+  </data>
+  <data name="Sign out" xml:space="preserve">
+    <value>ออกจากระบบ</value>
+  </data>
+  <data name="Events" xml:space="preserve">
+    <value>กิจกรรม</value>
+  </data>
+  <data name="Webboard" xml:space="preserve">
+    <value>เว็บบอร์ด</value>
+  </data>
+  <data name="Email_1" xml:space="preserve">
+    <value>สำนักงานอธิการบดี</value>
+  </data>
+  <data name="Email_2" xml:space="preserve">
+    <value>เลขาธิการ</value>
+  </data>
+  <data name="Email_3" xml:space="preserve">
+    <value>สำนักงานเหรัญญิก</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>อื่น ๆ</value>
+  </data>
+  <data name="Meeting atmosphere" xml:space="preserve">
+    <value>ภาพบรรยากาศการประชุม</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>ที่อยู่</value>
+  </data>
+  <data name="Change new password" xml:space="preserve">
+    <value>ตั้งรหัสผ่านใหม่</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>ยืนยัน</value>
+  </data>
+  <data name="Confirm password" xml:space="preserve">
+    <value>ยืนยันรหัสผ่าน</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>ประเทศ</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>ดาวน์โหลด</value>
+  </data>
+  <data name="Education" xml:space="preserve">
+    <value>ระดับการศึกษา</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>อีเมลล์</value>
+  </data>
+  <data name="First name" xml:space="preserve">
+    <value>ชื่อ</value>
+  </data>
+  <data name="I forgot my password" xml:space="preserve">
+    <value>ลืมรหัสผ่าน</value>
+  </data>
+  <data name="Last name" xml:space="preserve">
+    <value>นามสกุล</value>
+  </data>
+  <data name="My profile" xml:space="preserve">
+    <value>ข้อมูลส่วนตัว</value>
+  </data>
+  <data name="Read more" xml:space="preserve">
+    <value>อ่านต่อ</value>
+  </data>
+  <data name="Register for receive Line notifications*" xml:space="preserve">
+    <value>ลงทะเบียนสำหรับรับการแจ้งเตือนผ่านไลน์</value>
+  </data>
+  <data name="Send message" xml:space="preserve">
+    <value>ส่งข้อความ</value>
+  </data>
+  <data name="Send to reset password" xml:space="preserve">
+    <value>ส่งเพื่อตั้งรหัสผ่านใหม่</value>
+  </data>
+  <data name="Sign in to start your session" xml:space="preserve">
+    <value>เข้าสู่ระบบเพื่อเริ่มเซสชันของคุณ</value>
+  </data>
+  <data name="Tel." xml:space="preserve">
+    <value>เบอร์โทร</value>
+  </data>
+  <data name="Your account" xml:space="preserve">
+    <value>ชื่อบัญชี</value>
+  </data>
+  <data name="Your email to reset password." xml:space="preserve">
+    <value>อีเมลล์สำหรับการเปลี่ยนรหัสผ่าน</value>
+  </data>
+  <data name="List all of" xml:space="preserve">
+    <value>รายการทั้งหมดของ</value>
+  </data>
+  <data name="Order by date descending." xml:space="preserve">
+    <value>เรียงตามวันที่จากมากไปน้อย</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>เกี่ยวกับเรา</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>แอคชั่น</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>สถานะใช้งาน</value>
+  </data>
+  <data name="Agenda ID" xml:space="preserve">
+    <value>รหัสวาระการประชุม</value>
+  </data>
+  <data name="Agenda Title" xml:space="preserve">
+    <value>ชื่อวาระการประชุม</value>
+  </data>
+  <data name="Allow" xml:space="preserve">
+    <value>การอนุญาติ</value>
+  </data>
+  <data name="Attachment" xml:space="preserve">
+    <value>ไฟล์แนบ</value>
+  </data>
+  <data name="Board ID" xml:space="preserve">
+    <value>รหัสบอร์ด</value>
+  </data>
+  <data name="Child Of Menu" xml:space="preserve">
+    <value>เป็นเมนูย่อย</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>ความคิดเห็น</value>
+  </data>
+  <data name="Contact us" xml:space="preserve">
+    <value>ติดต่อเรา</value>
+  </data>
+  <data name="Content Management" xml:space="preserve">
+    <value>จัดการเนื้อหา</value>
+  </data>
+  <data name="Controller" xml:space="preserve">
+    <value>คอนโทลเลอร์</value>
+  </data>
+  <data name="Country ID" xml:space="preserve">
+    <value>รหัสประเทศสมาชิก</value>
+  </data>
+  <data name="Country_ID" xml:space="preserve">
+    <value>ประเทศสมาชิก</value>
+  </data>
+  <data name="Create by" xml:space="preserve">
+    <value>สร้างโดย</value>
+  </data>
+  <data name="Create Date" xml:space="preserve">
+    <value>วันที่สร้าง</value>
+  </data>
+  <data name="Create New" xml:space="preserve">
+    <value>สร้างใหม่</value>
+  </data>
+  <data name="Credit" xml:space="preserve">
+    <value>Credit</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>รายละเอียด</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>รายละเอียด</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>แก้ไข</value>
+  </data>
+  <data name="Events Date" xml:space="preserve">
+    <value>วันที่จัดกิจกรรม</value>
+  </data>
+  <data name="Events Management" xml:space="preserve">
+    <value>จัดการกิจกรรม</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>ค้นหา</value>
+  </data>
+  <data name="Footer" xml:space="preserve">
+    <value>ส่วนท้าย</value>
+  </data>
+  <data name="Function Name" xml:space="preserve">
+    <value>Function Name</value>
+  </data>
+  <data name="Google Map URL" xml:space="preserve">
+    <value>Google Map URL</value>
+  </data>
+  <data name="Header" xml:space="preserve">
+    <value>ส่วนหัว</value>
+  </data>
+  <data name="Icon" xml:space="preserve">
+    <value>ไอคอน</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>รูปภาพ</value>
+  </data>
+  <data name="Image Gallery ID" xml:space="preserve">
+    <value>รหัสแกลเลอรี่ภาพ</value>
+  </data>
+  <data name="Level ID" xml:space="preserve">
+    <value>ระดับ</value>
+  </data>
+  <data name="Level_ID" xml:space="preserve">
+    <value>ระดับ</value>
+  </data>
+  <data name="Line Token" xml:space="preserve">
+    <value>Line Token</value>
+  </data>
+  <data name="Link" xml:space="preserve">
+    <value>ลิงค์</value>
+  </data>
+  <data name="Mac Address" xml:space="preserve">
+    <value>Mac Address</value>
+  </data>
+  <data name="management" xml:space="preserve">
+    <value>จัดการข้อมูล</value>
+  </data>
+  <data name="Master data" xml:space="preserve">
+    <value>ข้อมูลหลัก</value>
+  </data>
+  <data name="Meeting Date" xml:space="preserve">
+    <value>วันที่ประชุม</value>
+  </data>
+  <data name="Meeting ID" xml:space="preserve">
+    <value>รหัสการประชุม</value>
+  </data>
+  <data name="Meeting Title" xml:space="preserve">
+    <value>หัวข้อการประชุม</value>
+  </data>
+  <data name="Menu ID" xml:space="preserve">
+    <value>รหัสเมนู</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>ข้อความ</value>
+  </data>
+  <data name="Minutes management" xml:space="preserve">
+    <value>จัดการรายงานการประชุม</value>
+  </data>
+  <data name="News Management" xml:space="preserve">
+    <value>จัดการข่าว</value>
+  </data>
+  <data name="Phone Number" xml:space="preserve">
+    <value>เบอร์ติดต่อ</value>
+  </data>
+  <data name="Phone Number1" xml:space="preserve">
+    <value>เบอร์ติดต่อ 1</value>
+  </data>
+  <data name="Phone Number2" xml:space="preserve">
+    <value>เบอร์ติดต่อ 2</value>
+  </data>
+  <data name="Phone Number3" xml:space="preserve">
+    <value>เบอร์ติดต่อ 3</value>
+  </data>
+  <data name="Position" xml:space="preserve">
+    <value>ตำแหน่ง</value>
+  </data>
+  <data name="Privilege Management" xml:space="preserve">
+    <value>จัดการสิทธิประโยชน์</value>
+  </data>
+  <data name="Role Name" xml:space="preserve">
+    <value>Role Name</value>
+  </data>
+  <data name="Send notify" xml:space="preserve">
+    <value>ส่งการแจ้งเตือน</value>
+  </data>
+  <data name="Short Name" xml:space="preserve">
+    <value>ชื่อย่อ</value>
+  </data>
+  <data name="Sorting" xml:space="preserve">
+    <value>จัดเรียง</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>สถานะ</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>ชื่อเรื่อง</value>
+  </data>
+  <data name="Topic" xml:space="preserve">
+    <value>หัวข้อ</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>ระดับ</value>
+  </data>
+  <data name="Upload Images" xml:space="preserve">
+    <value>อัพโหลดรูป</value>
+  </data>
+  <data name="Webboard Management" xml:space="preserve">
+    <value>จัดการเว็บบอร์ด</value>
+  </data>
+  <data name="Message To Admin" xml:space="preserve">
+    <value>ข้อความถึงผู้ดูแลระบบ</value>
+  </data>
+  <data name="Inactive" xml:space="preserve">
+    <value>สถานะไม่ใช้งาน</value>
+  </data>
+  <data name="New message from member." xml:space="preserve">
+    <value>ข้อความใหม่จากสมาชิก</value>
+  </data>
+  <data name="New message from non user." xml:space="preserve">
+    <value>ข้อความใหม่จากผู้ใช้งานทั่วไป</value>
+  </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>การแจ้งเตือน</value>
+  </data>
+  <data name="You have" xml:space="preserve">
+    <value>คุณมี</value>
+  </data>
+  <data name="View all" xml:space="preserve">
+    <value>ดูทั้งหมด</value>
+  </data>
+  <data name="Forward" xml:space="preserve">
+    <value>ดำเนินการ</value>
+  </data>
+  <data name="Description TH" xml:space="preserve">
+    <value>รายละเอียดภาษาไทย</value>
+  </data>
+  <data name="Title TH" xml:space="preserve">
+    <value>ชื่อเรื่องภาษาอังกฤษ</value>
+  </data>
+</root>

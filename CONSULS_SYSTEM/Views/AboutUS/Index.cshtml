@@ -1,0 +1,98 @@
+﻿@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Http.Features
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
+@using Microsoft.AspNetCore.Http.Extensions;
+@using CONSULS_SYSTEM.Resources
+@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json;
+@inject LocService SharedLocalizer
+@inject IViewLocalizer Localizer
+@inject IOptions<RequestLocalizationOptions> LocOptions
+@model IEnumerable<CONSULS_SYSTEM.Models.MT_AboutUS>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout_member.cshtml";
+
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var lang = requestCulture.RequestCulture.UICulture.TwoLetterISOLanguageName;
+}
+
+<style type="text/css">
+    section h3.section-subheading {
+        min-height: 0px !important;
+        margin-bottom: 0px;
+    }
+
+    td {
+        padding: 10px !important;
+    }
+
+    section {
+        padding: 0% 0 !important;
+        margin-top: 0% !important;
+    }
+</style>
+
+<section id="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <br />
+                <h2 class="section-heading">@SharedLocalizer.GetLocalizedHtmlString("About us")</h2>
+                @*<h3 class="section-subheading text-muted">Content abount.</h3>*@
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        @{
+                            int i = 0;
+                        }
+                        @foreach (var item in Model)
+                        {
+                            if (i == 0)
+                            {
+                                <li class="active"><a href="#@item.ID" data-toggle="tab"><b>@(lang.Equals("en") || item.Title2==null ? item.Title : item.Title2)</b></a></li>
+                            }
+                            else
+                            {
+                                <li><a href="#@item.ID" data-toggle="tab"><b>@(lang.Equals("en") || item.Title2 == null ? item.Title : item.Title2)</b></a></li>
+                            }
+                            i++;
+                        }
+                    </ul>
+
+                    <div class="tab-content">
+                        @{
+                            int j = 0;
+                        }
+                        @foreach (var item in Model)
+                        {
+                            if (j == 0)
+                            {
+                                <div class="tab-pane active" id="@item.ID">
+                                    <br />
+                                    @Html.Raw(lang.Equals("en") || item.Description2 == null ? item.Description: item.Description2)
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="tab-pane" id="@item.ID">
+                                    <br />
+                                    @Html.Raw(lang.Equals("en") || item.Description2 == null ? item.Description : item.Description2)
+                                </div>
+                            }
+                            j++;
+                        }
+                        <!-- /.tab-pane -->
+                    </div>
+                    <!-- /.tab-content -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

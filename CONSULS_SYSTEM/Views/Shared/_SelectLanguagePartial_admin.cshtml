@@ -1,0 +1,43 @@
+﻿@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Http.Features
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
+@using Microsoft.AspNetCore.Http.Extensions;
+
+@using CONSULS_SYSTEM.Resources
+@inject LocService SharedLocalizer
+
+@inject IViewLocalizer Localizer
+@inject IOptions<RequestLocalizationOptions> LocOptions
+
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var cultureItems = LocOptions.Value.SupportedUICultures
+        .Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName })
+        .ToList();
+}
+
+<!-- Tasks: style can be found in dropdown.less -->
+<li class="dropdown tasks-menu">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-flag-o"></i> @requestCulture.RequestCulture.UICulture.Name <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+        <li class="header" style="text-align:center">@SharedLocalizer.GetLocalizedHtmlString("Select Language")</li>
+        <li>
+            <!-- inner menu: contains the actual data -->
+            <ul class="menu">
+                @foreach (var item in cultureItems)
+                {
+                    <li>
+                        <!-- Task item -->
+                        <a asp-action="SetLanguage" asp-controller="Home" asp-route-returnUrl="@Context.Request.GetDisplayUrl()" asp-route-culture="@item.Value">
+                            <h3>@item.Text</h3>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </li>
+    </ul>
+</li>

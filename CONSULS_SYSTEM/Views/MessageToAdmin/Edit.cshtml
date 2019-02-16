@@ -1,0 +1,207 @@
+﻿@model CONSULS_SYSTEM.Models.TB_MessageToAdmin
+@using CONSULS_SYSTEM.Resources
+@using Microsoft.AspNetCore.Http;
+
+@inject LocService SharedLocalizer
+@{
+    Layout = "_Layout_admin";
+    ViewData["Title"] = "Edit";
+}
+
+<section class="content-header">
+    <h1>
+        Data
+        <small> management</small>
+    </h1>
+    <!--<ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Examples</a></li>
+        <li class="active">Blank page</li>
+    </ol>-->
+</section>
+
+<section class="content">
+    <div class="col-lg-12">
+        <div class="col-lg-6">
+
+        </div>
+    </div>
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title">@SharedLocalizer.GetLocalizedHtmlString("Message To Admin")</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                        title="Collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+            <form asp-action="Edit" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <input type="hidden" asp-for="ID" value="@Model.ID" />
+                <input asp-for="CreateDate" type="hidden" class="form-control" />
+                <input asp-for="Createby" type="hidden" class="form-control" />
+                <input asp-for="Type" type="hidden" class="form-control" />
+                <input asp-for="User_ID" type="hidden" class="form-control" />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="box-body">
+                    <div class="form-group">
+                        <label asp-for="Topic" class="col-sm-4  control-label"></label>
+                        <div class="col-sm-5">
+                            <input asp-for="Topic" readonly class="form-control" />
+                            <span asp-validation-for="Topic" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Title" class="col-sm-4  control-label"></label>
+                        <div class="col-sm-5">
+                            <input asp-for="Title" readonly class="form-control" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Message" class="col-sm-4  control-label"></label>
+                        <div class="col-sm-5">
+                            <textarea class="form-control" readonly asp-for="Message"></textarea>
+                            <span asp-validation-for="Message" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Type" class="col-sm-4  control-label"></label>
+                        <div class="col-sm-5">
+                            <select asp-items="@ViewBag.ddlLevel" class="form-control select2" disabled></select>
+                            <span asp-validation-for="Type" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Name" class="col-sm-4  control-label"></label>
+                        <div class="col-sm-5">
+                            <input asp-for="Name" readonly class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email" class="col-sm-4  control-label"></label>
+                        <div class="col-sm-5">
+                            <input asp-for="Email" readonly class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Phone_Number" class="col-sm-4  control-label"></label>
+                        <div class="col-sm-5">
+                            <input asp-for="Phone_Number" readonly class="form-control" />
+                            <span asp-validation-for="Phone_Number" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">@SharedLocalizer.GetLocalizedHtmlString("Forward")</label>
+                        <div class="col-sm-5">
+                            <select asp-for="Country_ID" asp-items="@ViewBag.ddlCountry" class="form-control select2">
+                                <option value="0">ส่งกลับผู้ที่สอบถาม</option>
+                            </select>
+                            <span asp-validation-for="Country_ID" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">@SharedLocalizer.GetLocalizedHtmlString("Other")</label>
+                        <div class="col-sm-5">
+                            <textarea class="form-control" name="MessageOther" placeholder="Message Other..."></textarea>
+                        </div>
+                    </div>
+                    @*<div class="form-group">
+            <label asp-for="Status" class="col-sm-4  control-label"></label>
+            <div class="col-sm-5">
+                <input type="checkbox" id="cbStatus" @(Model.Status == "R" ? "checked" : "") name="Status" value="N" data-toggle="toggle" data-onstyle="primary" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+        </div>*@
+                </div>
+                <div class="box-footer" style="text-align:center">
+                    <a asp-action="Manage" class="btn btn-default"><i class="fa fa-mail-reply"></i> Back</a>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-send-o"></i> Forward</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<br />
+<br />
+<br />
+<br />
+<script>
+  $(function() {
+    $('#cbStatus').bootstrapToggle({
+      on: 'Readed',
+      off: 'New'
+    });
+  })
+</script>
+@*<section class="content">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@SharedLocalizer.GetLocalizedHtmlString("Edit") - @SharedLocalizer.GetLocalizedHtmlString("Message To Admin")</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                            title="Collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="ID" value="@Model.ID" />
+                    <input asp-for="CreateDate" type="hidden" class="form-control" />
+                    <input asp-for="Createby" type="hidden" class="form-control" />
+                    <input asp-for="Type" type="hidden" class="form-control" />
+                    <input asp-for="User_ID" type="hidden" class="form-control" />
+                    <div class="form-group">
+                        <label asp-for="Title" class="control-label"></label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Message" class="control-label"></label>
+                        <input asp-for="Message" class="form-control" />
+                        <span asp-validation-for="Message" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Topic" class="control-label"></label>
+                        <input asp-for="Topic" class="form-control" />
+                        <span asp-validation-for="Topic" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Phone_Number" class="control-label"></label>
+                        <input asp-for="Phone_Number" class="form-control" />
+                        <span asp-validation-for="Phone_Number" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Status" class="control-label"></label>
+                        <input type="checkbox" @(Model.Status == "R" ? "checked" : "") name="Status" value="N" data-toggle="toggle" data-onstyle="success" />
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+                    <div class="form-group" style="float:right">
+                        <a asp-action="Manage" class="btn btn-default"><i class="fa fa-mail-reply"></i> Back</a>
+                        <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+            <!-- /.box-body -->
+        <!-- /.box -->
+    </section>*@
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
